@@ -137,6 +137,9 @@ window.AUDIO = (() => {
     woobin:    { gender: 'm', names: ['Eddy', 'Rocko', 'Hyunsu'], rate: 1.05, pitch: 1.05 },                    // 정우빈 (28, 남)
     grandma:   { gender: 'f', names: ['Grandma', 'YuJin', 'Shelley'], rate: 0.88, pitch: 0.9 },                // 302호 할머니 (70대, 여)
     guard:     { gender: 'm', names: ['Grandpa', 'GookMin', 'Reed'], rate: 0.92, pitch: 0.9 },                  // 박영수 (60대, 남)
+    seoa:      { gender: 'f', names: ['Sandy', 'Shelley', 'SeoHyeon', 'Yuna'], rate: 1.1, pitch: 1.2 },          // 박서아 (27, 여)
+    doyun:     { gender: 'm', names: ['Eddy', 'Rocko', 'Hyunsu'], rate: 1.05, pitch: 1.0 },                     // 이도윤 (29, 남)
+    manager:   { gender: 'm', names: ['Reed', 'InJoon', 'GookMin'], rate: 0.98, pitch: 0.95 },                  // 관리실 자동 응답 (남)
   };
   const MALE = /eddy|reed|rocko|grandpa|injoon|hyunsu|gookmin|bongjin|male|남/i, FEMALE = /yuna|flo|sandy|shelley|grandma|sunhi|heami|jimin|seohyeon|yujin|soonbok|female|여/i;
   function voiceFor(role) {

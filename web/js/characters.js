@@ -13,6 +13,11 @@ window.CHARS = (() => {
     jisu:   { name: '한지수', skin: 0xffe2cf, hair: 'long', hairC: 0x5a3a2a, body: 'jacket', coatC: 0xc8963a, pantsC: 0x3b4a66, shoes: 'sneakers', extras: ['phone'], eye: { iris: '#7a4a2a', mood: 'calm', brow: 'soft' } },
     grandma: { name: '최경자', skin: 0xf6d8c2, hair: 'greybob', hairC: 0xd2d0d4, body: 'longcoat', coatC: 0xa0586a, pantsC: 0x5a4a52, shoes: 'black', extras: ['glasses'], eye: { iris: '#4a3a3a', mood: 'closed', brow: 'soft' } },
     guard:  { name: '박영수', skin: 0xf6d5ba, hair: 'cap', hairC: 0xdadada, body: 'uniform', coatC: 0x34405a, pantsC: 0x34405a, shoes: 'black', extras: ['mustache', 'readglasses', 'keys', 'thermos'], eye: { iris: '#3a3030', mood: 'closed', brow: 'soft' } },
+    seoa:   { name: '박서아', skin: 0xffe4d4, hair: 'bob', hairC: 0x7a4a32, body: 'hoodie', coatC: 0xeaa6bb, pantsC: 0x3b4a66, shoes: 'sneakers', extras: ['backpack'], eye: { iris: '#7a4a32', mood: 'smile', brow: 'soft' } },
+    doyun:  { name: '이도윤', skin: 0xf3d3bb, hair: 'short', hairC: 0x1c1a1c, body: 'jacket', coatC: 0x30415e, pantsC: 0x3a3f4a, shoes: 'black', extras: [], eye: { iris: '#4a3a30', mood: 'calm', brow: 'firm' } },
+    manager:{ name: '관리실 직원', skin: 0xf0cfb4, hair: 'cap', hairC: 0x2a2626, body: 'jacket', coatC: 0x4b5560, pantsC: 0x4a5058, shoes: 'black', extras: ['vest', 'toolbag'], eye: { iris: '#3a3030', mood: 'calm', brow: 'firm' } },
+    grad1:  { name: '오세훈', skin: 0xf4d4bc, hair: 'short', hairC: 0x2a2224, body: 'hoodie', coatC: 0x5d7a5a, pantsC: 0x34383f, shoes: 'black', extras: ['glasses'], eye: { iris: '#4a3a30', mood: 'smile', brow: 'soft' } },
+    grad2:  { name: '배지아', skin: 0xffe2cf, hair: 'bob', hairC: 0x3a2a24, body: 'jacket', coatC: 0xc9a46a, pantsC: 0x30343c, shoes: 'sneakers', extras: [], eye: { iris: '#6b4a3a', mood: 'smile', brow: 'soft' } },
   };
 
   /* ───────── 재질 ───────── */
@@ -103,8 +108,10 @@ window.CHARS = (() => {
   function shade(hex, k) { const n = parseInt(hex.slice(1), 16); const f = v => Math.min(255, Math.round(v * k)); return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`; }
 
   /* ───────── 조립 ───────── */
-  function build(id) {
-    const c = SPEC[id], g = new THREE.Group(), fig = new THREE.Group(); g.add(fig);
+  /* over: 옷·소품 바꿔 입히기 (예: 다른 사람의 패딩을 입고 후드를 쓴 모습) */
+  function build(id, over) {
+    const c = Object.assign({}, SPEC[id], over || {}), g = new THREE.Group(), fig = new THREE.Group(); g.add(fig);
+    c.eye = Object.assign({}, SPEC[id].eye, (over && over.eye) || {});
     const skin = SKIN(c.skin), coat = CLOTH(c.coatC), pants = CLOTH(c.pantsC), hairM = PVC(c.hairC);
     const W = c.wide || 1; fig.scale.set(W, c.tall || 1, W);
 
@@ -177,6 +184,22 @@ window.CHARS = (() => {
     if (c.extras.includes('notebook')) { handL.add(mesh(rbox(0.08, 0.1, 0.018, 0.006), CLOTH(0x2a2a2a), 0, -0.27, 0.04)); handL.rotation.x = -0.6; }
     if (c.extras.includes('keys')) fig.add(mesh(new THREE.TorusGeometry(0.03, 0.007, 6, 12), M(0xc8c8c8, { m: 0.7, r: 0.3 }), 0.15, 0.2, 0.1));
     if (c.extras.includes('thermos')) handL.add(mesh(cyl(0.035, 0.035, 0.13), PVC(0x8a2e2e), 0, -0.29, 0.03));
+    if (c.extras.includes('hood')) {   // 후드를 깊게 눌러쓴 모습: 머리를 덮고 얼굴 위쪽을 가린다
+      const hm = CLOTH(c.hoodC || c.coatC);
+      const hood = mesh(new THREE.SphereGeometry(0.43, 32, 22, Math.PI / 2 + 0.95, Math.PI * 2 - 1.9, 0, Math.PI * 0.72), hm); hood.material.side = THREE.DoubleSide; head.add(hood);
+      const rim = mesh(new THREE.TorusGeometry(0.3, 0.07, 10, 28, Math.PI * 1.25), hm, 0, 0.02, 0.27); rim.rotation.set(-0.35, 0, -Math.PI / 8); head.add(rim);
+      const shade = mesh(new THREE.SphereGeometry(0.345, 28, 16, Math.PI / 2 - 0.75, 1.5, 0, Math.PI * 0.6), new THREE.MeshBasicMaterial({ color: 0x0a0a0c, transparent: true, opacity: 0.72 })); shade.scale.set(1.07, 0.98, 1.02); head.add(shade);
+      head.rotation.x = 0.28;
+    }
+    if (c.extras.includes('vest')) {   // 형광 점검 조끼 + 등판 글씨
+      fig.add(mesh(cyl(0.15, 0.185, 0.25), M(0xc8f03c, { r: 0.55, cc: 0.1 }), 0, 0.38, 0));
+      [0.3, 0.42].forEach(y => { const b = mesh(new THREE.TorusGeometry(0.168, 0.008, 6, 30), M(0xe6e6e6, { m: 0.4, r: 0.25 })); b.rotation.x = Math.PI / 2; b.position.y = y; fig.add(b); });
+      const cv = document.createElement('canvas'); cv.width = 256; cv.height = 160; const x = cv.getContext('2d');
+      x.fillStyle = '#c8f03c'; x.fillRect(0, 0, 256, 160); x.fillStyle = '#1d2a12'; x.textAlign = 'center'; x.font = '800 44px -apple-system, "Apple SD Gothic Neo", sans-serif'; x.fillText('해든빌라', 128, 64); x.font = '800 50px -apple-system, "Apple SD Gothic Neo", sans-serif'; x.fillText('관리실', 128, 128);
+      const tx = new THREE.CanvasTexture(cv); tx.encoding = THREE.sRGBEncoding;
+      const back = new THREE.Mesh(new THREE.PlaneGeometry(0.22, 0.14), new THREE.MeshStandardMaterial({ map: tx, roughness: 0.7 })); back.position.set(0, 0.4, -0.181); back.rotation.y = Math.PI; fig.add(back);
+    }
+    if (c.extras.includes('toolbag')) handR.add(mesh(rbox(0.16, 0.1, 0.07, 0.02), CLOTH(0x2c4a7a), 0, -0.3, 0.02));
     if (id === 'taeo') { head.rotation.x = 0.12; head.position.z = 0.03; }
 
     const shd = new THREE.Mesh(new THREE.CircleGeometry(0.28, 24), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.18, depthWrite: false }));
@@ -249,5 +272,27 @@ window.CHARS = (() => {
     L.head.rotation.z = moving ? Math.sin(t * 11) * 0.04 : Math.sin(t * 1.5) * 0.015;
   }
 
-  return { build, animate, setExpression, MOODS, SPEC, rbox };
+  /* 고양이 피규어 (모찌: 회색 / 두부: 흰색). pose: 'sit' | 'walk' | 'eat' */
+  function cat(color = 0x9a9aa2, pose = 'sit') {
+    const g = new THREE.Group(), fur = M(color, { r: 0.6, cc: 0.2 }), pink = M(0xf2a0a8), dark = M(0x1a1616, { r: 0.3, cc: 0.6 });
+    const body = mesh(sph(0.2, 24, 18), fur, 0, 0.2, 0); body.scale.set(0.85, pose === 'sit' ? 1.05 : 0.8, pose === 'sit' ? 1.0 : 1.5); g.add(body);
+    const head = new THREE.Group(); head.position.set(0, pose === 'sit' ? 0.46 : pose === 'eat' ? 0.18 : 0.36, pose === 'sit' ? 0.06 : 0.3); g.add(head);
+    const skull = mesh(sph(0.17, 24, 18), fur); skull.scale.set(1.12, 0.95, 1); head.add(skull);
+    [-1, 1].forEach(s => {
+      const ear = mesh(new THREE.ConeGeometry(0.065, 0.12, 4), fur, s * 0.1, 0.15, -0.01); ear.rotation.z = -s * 0.35; head.add(ear);
+      const ein = mesh(new THREE.ConeGeometry(0.035, 0.07, 4), pink, s * 0.098, 0.145, 0.02); ein.rotation.z = -s * 0.35; head.add(ein);
+      if (pose !== 'eat') { const eye = mesh(sph(0.032, 12, 10), dark, s * 0.065, 0.02, 0.145); eye.scale.set(1, 1.25, 0.6); head.add(eye); head.add(mesh(sph(0.009, 6, 6), M(0xffffff), s * 0.058, 0.035, 0.162)); }
+    });
+    head.add(mesh(sph(0.018, 8, 6), pink, 0, -0.035, 0.168));
+    const muzzle = mesh(sph(0.06, 12, 10), M(new THREE.Color(color).lerp(new THREE.Color(0xffffff), 0.45).getHex(), { r: 0.6 }), 0, -0.06, 0.13); muzzle.scale.set(1.3, 0.8, 0.8); head.add(muzzle);
+    if (pose === 'eat') head.rotation.x = 0.7;
+    const tail = mesh(new THREE.TorusGeometry(0.16, 0.035, 8, 20, Math.PI * 1.1), fur, pose === 'sit' ? 0.12 : 0, pose === 'sit' ? 0.04 : 0.32, pose === 'sit' ? -0.06 : -0.3);
+    tail.rotation.set(pose === 'sit' ? -Math.PI / 2 : 0, pose === 'sit' ? 0 : Math.PI / 2, pose === 'sit' ? 0.4 : 0.2); g.add(tail);
+    const legs = pose === 'sit' ? [[-0.07, 0.11], [0.07, 0.11]] : [[-0.08, 0.2], [0.08, 0.2], [-0.08, -0.2], [0.08, -0.2]];
+    legs.forEach(([x, z]) => g.add(mesh(cyl(0.035, 0.04, pose === 'sit' ? 0.2 : 0.16, 10), fur, x, pose === 'sit' ? 0.1 : 0.08, z)));
+    const shd = new THREE.Mesh(new THREE.CircleGeometry(0.24, 20), new THREE.MeshBasicMaterial({ color: 0, transparent: true, opacity: 0.18, depthWrite: false })); shd.rotation.x = -Math.PI / 2; shd.position.y = 0.004; g.add(shd);
+    return g;
+  }
+
+  return { build, animate, setExpression, MOODS, SPEC, rbox, cat };
 })();

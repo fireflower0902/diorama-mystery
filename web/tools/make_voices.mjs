@@ -25,6 +25,9 @@ const VOICE = {
   woobin:    ['ko-KR-HyunsuMultilingualNeural', '+2%', '-4Hz'],
   guard:     ['ko-KR-InJoonNeural', '-12%', '-14Hz'],
   grandma:   ['ko-KR-SunHiNeural', '-14%', '-20Hz'],
+  seoa:      ['ko-KR-SunHiNeural', '+8%', '+20Hz'],
+  doyun:     ['ko-KR-HyunsuMultilingualNeural', '+0%', '-6Hz'],
+  manager:   ['ko-KR-InJoonNeural', '-4%', '-6Hz'],
 };
 
 /* 게임(audio.js)과 같은 규칙으로 파일 이름을 만든다 */
@@ -46,8 +49,11 @@ function linesOf({ C, T }) {
     const st = { records: flag, unlocked: flag, has: () => flag, hasEv: () => flag, flags: {} };
     const e = fn(st); if (e.lines) e.lines.forEach(([, l]) => L.push([e.voice || 'narrator', l]));
   }
-  const d = T.detectiveCall;
-  if (d) { L.push(['detective', d.opening.join(' ')]); d.options.forEach(o => { L.push(['me', o.label]); L.push(['detective', o.reply]); }); }
+  const calls = T.calls || (T.detectiveCall ? { detective: T.detectiveCall } : {});
+  for (const [id, c] of Object.entries(calls)) { const role = c.voice || id; L.push([role, c.opening.join(' ')]); (c.options || []).forEach(o => { L.push(['me', o.label]); L.push([role, o.reply]); }); }
+  const S = { flags: {}, vfail: 0 };
+  if (C.verdict) for (const n of Object.values(C.verdict.nodes)) (typeof n.lines === 'function' ? n.lines(S) : n.lines || []).forEach(([r, t]) => L.push([r, t]));
+  for (const list of Object.values(C.thoughts || {})) list.forEach(x => L.push(['me', x.t]));
   return L;
 }
 

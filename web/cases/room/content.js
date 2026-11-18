@@ -2,19 +2,19 @@
 window.CONTENT = {
   phone: {
     threads: [
-      { id: 'seoa', name: '서아 🐾', sub: '출장 동안 모찌 밥 부탁한 친구', av: ['#e8a3b8', '서'], unread: 1, ev: 'r_seoa', msgs: [
+      { id: 'seoa', name: '서아 🐾', sub: '출장 동안 모찌 밥 부탁한 친구', fig: 'seoa', av: ['#e8a3b8', '서'], unread: 1, ev: 'r_seoa', msgs: [
         { d: '11월 17일 (화)' },
         { who: '나', t: '20:10', text: '서아야 나 18일부터 20일까지 대전 출장이야ㅠ 19일에 모찌 밥 한 번만 부탁해도 될까?' },
         { who: '서아', t: '20:12', text: '당연하지!! 비번 알려줘' },
         { who: '나', t: '20:13', text: '게스트 비번 따로 만들어 놨어. 끝나면 꼭 문 잠가 줘!' },
         { d: '11월 19일 (목)' },
         { who: '서아', t: '19:58', text: '모찌 밥 주고 나왔어~ 물도 갈고 화장실도 치움! 문 꼭 잠갔어 🐱' },
-        { who: '서아', t: '19:59', text: '[사진] 밥 먹는 모찌' },
+        { who: '서아', t: '19:59', text: '[사진] 밥 먹는 모찌', photo: 'mochi_eat' },
         { d: '11월 20일 (금)' },
         { who: '나', t: '21:45', text: '서아야… 모찌가 없어' },
         { who: '서아', t: '21:46', text: '헐?? 나 어제 나올 때 분명 있었어!! 문도 잠갔고!!' },
       ]},
-      { id: 'doyun', name: '도윤', sub: '전 남자친구', av: ['#6b7a8c', '도'], unread: 1, ev: 'r_doyun', msgs: [
+      { id: 'doyun', name: '도윤', sub: '전 남자친구', fig: 'doyun', av: ['#6b7a8c', '도'], unread: 1, ev: 'r_doyun', msgs: [
         { d: '11월 19일 (목)' },
         { who: '도윤', t: '12:03', text: '이번 주 부산 출장이라 바빠. 모찌는 잘 있지?' },
         { who: '도윤', t: '22:14', text: '모찌 보고 싶다. 근처 지나가는데 잠깐 들러도 돼?' },
@@ -38,24 +38,50 @@ window.CONTENT = {
         { who: '엄마', t: '19:30', text: '출장 잘 다녀왔니? 모찌 사진 좀 보내 줘. 보고 싶네' },
       ]},
     ],
+    contacts: [
+      { id: 'seoa', name: '서아', sub: '친구 · 출장 동안 모찌 밥 담당', fig: 'seoa' },
+      { id: 'doyun', name: '도윤', sub: '전 남자친구', fig: 'doyun' },
+      { id: 'manager', name: '해든빌라 관리실', sub: '02-***-1120' },
+      { id: 'mom', name: '엄마', sub: '010-****-4471', toast: '엄마에게는 모찌를 찾고 나서 연락하자. 걱정하실 거야.' },
+    ],
   },
+
+  /* 전화: 의심이 가는 사람에게 따져 물을 수도 있다 (잘못 짚으면 결말에 남는다) */
+  calls: {
+    seoa: { voice: 'seoa', opening: ['지수야! 모찌 찾았어? 나 진짜 계속 생각하고 있었어.'], options: [
+      { id: 'acc', label: '너 어제 문 제대로 안 잠근 거 아니야?', reply: '뭐? 나 분명히 잠갔어! 도어락 잠기는 소리까지 듣고 나왔다고… 너무하다 진짜.', flag: 'accused' },
+      { id: 'ask', label: '어제 나올 때 모찌 어땠어?', reply: '러그 위에 앉아서 날 쳐다봤어. 7시 55분쯤 나왔고, 문 잠기는 소리도 확인했어. 무슨 일 있으면 바로 말해 줘!' },
+    ] },
+    doyun: { voice: 'doyun', opening: ['어. 무슨 일이야?'], options: [
+      { id: 'acc', label: '너 우리 집 왔었지? 모찌가 없어졌어.', reply: '뭐? 나 진짜 안 갔다니까. 비번도 바뀌었잖아. …모찌 없어졌어? 괜찮아?', flag: 'accused' },
+      { id: 'ask', label: '어제 근처 지나갔다며. 혹시 고양이 못 봤어?', reply: '문자만 보내고 그냥 갔어. 건물 안엔 들어가지도 않았어. 못 봤어, 미안.' },
+    ] },
+    manager: { voice: 'manager', opening: ['안녕하십니까, 해든빌라 관리실입니다. 지금은 업무 시간이 아닙니다. 급한 용무는 내일 오전 9시 이후에 다시 연락 주십시오.'], options: [] },
+  },
+  avatars: { '302호': 'grandma', '관리실': 'manager', '서아': 'seoa', '도윤': 'doyun' },
 
   /* 모찌캠 (펫캠) */
   cctv: [
-    { id: 'cam', short: '거실 카메라', name: '모찌캠 · 거실', scene: 'studio', frames: [
-      { t: '19:41:05', day: '2026-11-19', figs: [{ who: 'seoa', x: 330 }, { who: 'cat', x: 440 }], caption: '서아가 밥그릇에 사료를 붓는다. 모찌가 다가온다.' },
-      { t: '19:54:40', day: '2026-11-19', figs: [{ who: 'cat', x: 470 }], caption: '현관문이 닫힌다. 모찌는 캣타워 아래에 있다.' },
-      { t: '10:05:12', day: '2026-11-20', figs: [{ who: 'dooropen' }, { who: 'manager', x: 260 }], caption: '현관문이 열리고, 공구 가방을 든 사람이 들어온다. 문은 열린 채다.', zoom: 'vest', zoomLabel: '조끼 등판 확대', ev: 'r_vest' },
-      { t: '10:07:33', day: '2026-11-20', figs: [{ who: 'dooropen' }, { who: 'cat', x: 140 }], caption: '모찌가 열린 현관문 쪽으로 걸어간다.', ev: 'r_cam' },
-      { t: '10:08:02', day: '2026-11-20', figs: [{ who: 'dooropen' }], caption: '방 안에 모찌가 보이지 않는다.' },
+    { id: 'cam', short: '거실 카메라', name: '모찌캠 · 거실', app: '모찌캠 앱', style: 'pet',
+      shot: { set: 'studio', frontWall: 0xeee6da, bg: 0xeee6da, cam: [1.2, 1.75, -3.5], look: [-3.0, 0.55, 1.6], fov: 76 }, frames: [
+      { t: '19:41:05', day: '2026-11-19', figs: [{ id: 'seoa', at: [-2.1, -1.4], ry: Math.PI }, { cat: true, at: [-1.3, -2.0], ry: -2.2 }], caption: '서아가 밥그릇에 사료를 붓는다. 모찌가 다가온다.' },
+      { t: '19:54:40', day: '2026-11-19', figs: [{ cat: true, at: [-0.7, 0.9], ry: 2.6 }], caption: '현관문이 닫힌다. 모찌는 러그 위에 앉아 있다.' },
+      { t: '10:05:12', day: '2026-11-20', door: 'open', figs: [{ id: 'manager', at: [-3.4, 1.3], ry: 0.15, walk: 0.3 }], caption: '현관문이 열리고, 공구 가방을 든 사람이 들어와 욕실 쪽으로 간다. 문은 열린 채다.', zoom: 'vest', zoomLabel: '조끼 등판 확대', ev: 'r_vest' },
+      { t: '10:07:33', day: '2026-11-20', door: 'open', figs: [{ cat: true, pose: 'walk', at: [-3.7, 2.1], ry: -Math.PI / 2 }], caption: '모찌가 열린 현관문 쪽으로 걸어간다.', ev: 'r_cam' },
+      { t: '10:08:02', day: '2026-11-20', door: 'open', figs: [], caption: '방 안에 모찌가 보이지 않는다.' },
       { t: '10:21:10', day: '2026-11-20', figs: [], caption: '현관문이 닫힌다.' },
     ]},
   ],
-  zoomCaptions: { vest: '형광 조끼 등판에 "해든빌라 관리실"이라고 적혀 있다.' },
+  zooms: {
+    vest: { set: 'studio', frontWall: 0xeee6da, bg: 0xeee6da, door: 'open', cctv: true, cam: [-3.35, 0.95, 0.15], look: [-3.4, 0.6, 1.3], fov: 34, figs: [{ id: 'manager', at: [-3.4, 1.3], ry: 0.15, walk: 0.3 }], caption: '형광 조끼 등판에 "해든빌라 관리실"이라고 적혀 있다.' },
+  },
+  photos: {
+    mochi_eat: { set: 'studio', frontWall: 0xeee6da, bg: 0xeee6da, w: 480, h: 360, cam: [-1.1, 0.95, -0.6], look: [-2.0, 0.35, -2.0], fov: 40, figs: [{ cat: true, at: [-1.85, -1.85], ry: 0.55 }] },
+  },
 
   /* 스마트 도어락 */
   records: {
-    lock: { title: '301호 스마트 도어락 출입 기록', range: '11월 18일 ~ 11월 20일', provider: '도어락 앱', cols: ['시각', '방법', '상태'], ev: 'r_lock', rows: [
+    lock: { title: '301호 스마트 도어락 출입 기록', range: '11월 18일 ~ 11월 20일', provider: '도어락 앱', app: '스마트 도어락 앱', cols: ['시각', '방법', '상태'], ev: 'r_lock', rows: [
       ['11/18 07:12', '—', '잠김 (외출)'],
       ['11/19 19:40', '비밀번호 #2 (게스트)', '열림'],
       ['11/19 19:55', '—', '잠김'],
@@ -66,18 +92,25 @@ window.CONTENT = {
     ], foot: '※ 게스트 비밀번호 #2는 서아에게만 알려 준 번호. 마스터 비밀번호는 건물 관리실이 보관한다.' },
   },
 
-  /* 방 안 조사 */
+  /* 방·복도 조사 */
   examine: {
-    note: () => ({ title: '식탁 위 쪽지', ev: 'r_note', mood: 'gentle', body: '서아의 동글동글한 글씨.\n\n"19일 저녁 7시 40분! 밥이랑 물 주고 화장실도 치웠어. 모찌 완전 잘 있음 ㅎㅎ 문 꼭 잠그고 감 — 서아"' }),
+    note: () => ({ title: '식탁 위 쪽지', ev: 'r_note', mood: 'gentle', visual: { kind: 'sticky', text: '19일 저녁 7시 40분!\n밥이랑 물 주고 화장실도 치웠어 🐱\n모찌 완전 잘 있음 ㅎㅎ\n문 꼭 잠그고 감 — 서아 ♡', color: '#ffe7a0', rot: 2.5 }, body: '서아의 동글동글한 글씨.' }),
     bowl: () => ({ title: '밥그릇과 물그릇', ev: 'r_bowl', mood: 'uneasy', body: '사료가 거의 그대로 남아 있다. 서아가 어제 저녁 가득 채운 양이다.\n모찌가 하루 가까이 먹지 않은 것 같다.' }),
     window: () => ({ title: '창문', ev: 'r_window', body: '창문은 안에서 잠겨 있다. 방충망도 찢어진 데 없이 멀쩡하다.\n여기로 나가지는 못했다.' }),
-    mat: () => ({ title: '현관', ev: 'r_hair', mood: 'surprised', body: '현관 바깥쪽 매트에 회색 털이 잔뜩 묻어 있다. 모찌 털이다.\n모찌가 현관 밖까지 나갔다는 뜻일까?' }),
-    notice: () => ({ title: '현관문 안쪽 안내문', ev: 'r_notice', body: '[해든빌라 관리실 안내]\n11/20(금) 10:00~12:00 세대별 누수 점검을 실시합니다.\n부재 세대는 관리실 마스터 비밀번호로 출입하여 점검 후 잠가 드립니다.\n\n출장 가기 전날 붙어 있던 것 같은데, 제대로 읽지 않았다.' }),
+    notice: () => ({ title: '현관문 안쪽 안내문', ev: 'r_notice', visual: { kind: 'notice', title: '해든빌라 관리실 안내', text: '11월 20일(금) 오전 10시 ~ 12시\n세대별 누수 점검을 실시합니다.\n\n부재 세대는 관리실 마스터 비밀번호로\n출입하여 점검 후 바로 잠가 드립니다.\n\n입주민 여러분의 협조 부탁드립니다.', foot: '해든빌라 관리실' }, body: '출장 가기 전날 붙어 있던 것 같은데, 제대로 읽지 않았다.' }),
     cattower: () => ({ title: '캣타워', mood: 'sad', body: '모찌가 제일 좋아하는 맨 위 칸. 비어 있다.\n회색 털 몇 가닥만 남아 있다.' }),
     bed: () => ({ title: '침대', body: '출장 가방을 던져 둔 그대로다. 이불 속, 침대 밑까지 살펴봤지만 모찌는 없다.' }),
-    grandma: (st) => ({ kick: '대화', title: '302호 할머니', voice: 'grandma', mood: 'calm', lines: st.has('r_group')
-      ? [['302호 할머니', '어머, 그 회색 고양이가 지수 학생 고양이였어?'], ['302호 할머니', '낮에 복도에서 하도 울길래 우리 집에 들여놨지. 결론 내리면 데리러 와요, 호호.']]
-      : [['302호 할머니', '어머, 지수 학생 이제 왔어? 출장 간다더니.'], ['302호 할머니', '오늘 낮엔 관리실에서 집집마다 물 새는지 본다고 들락날락하더라고.'], ['302호 할머니', '나는 단톡방에 글 올려 놨는데… 요즘 젊은 사람들은 단톡 잘 안 보지? 호호.']],
-      action: { act: 'tofinal', label: '⚖️ 결론 내리기' } }),
+    mat: () => ({ title: '301호 앞 매트', ev: 'r_hair', mood: 'surprised', body: '우리 집 현관 바깥 매트에 회색 털이 잔뜩 묻어 있다. 모찌 털이다.\n복도 바닥에도 털이 띄엄띄엄 떨어져 있다. 어디로 이어지는 걸까?' }),
+    mat302: () => ({ title: '302호 앞 매트', ev: 'r_trail', mood: 'surprised', body: '302호 매트에도 회색 털이 묻어 있다. 매트 옆에는 뜯은 츄르 봉지 하나.\n우리 집 앞에서부터 털이 여기까지 이어져 있다.' }),
+    hallboard: () => ({ title: '복도 게시판', ev: 'r_notice', visual: { kind: 'board', papers: [
+      { title: '관리실 안내', text: '11/20(금) 10~12시\n세대별 누수 점검\n부재 세대는 마스터\n비밀번호로 출입', rot: -2 },
+      { title: '분리수거', text: '화·금 저녁 7시 이후\n박스는 꼭 접어서!', kind: 'green', rot: 2 },
+      { title: '반려동물 주의', text: '복도에서는\n목줄 착용 부탁드려요', kind: 'pink', rot: -1 } ] }, body: '' }),
+    door302: (st) => ({ kick: '302호', title: '302호 할머니 댁', body: st.has('r_trail') || st.has('r_group')
+      ? '문 너머로 TV 소리가 작게 들린다. 그리고… 가느다란 고양이 울음소리?'
+      : '옆집 할머니가 혼자 사시는 집. 문 너머로 TV 소리가 작게 들린다.', action: { act: 'verdict', label: '🔔 초인종을 누른다' } }),
+    door303: () => ({ title: '303호', body: '불이 꺼져 있다. 문 앞에 택배 상자만 쌓여 있다.\n며칠째 집을 비운 것 같다.' }),
+    elev2: () => ({ title: '엘리베이터', body: '3층에 멈춰 있다. 밖으로 찾으러 나가기 전에, 이 층부터 꼼꼼히 보자.' }),
+    stairs: () => ({ title: '비상계단', mood: 'uneasy', body: '아래층으로 이어지는 계단. 밤바람이 올라온다.\n모찌가 밖으로 나갔다면… 지금 찾으러 나가야 할까?', action: { act: 'giveup', label: '밖으로 찾으러 나간다…' } }),
   },
 };

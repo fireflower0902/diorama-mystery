@@ -16,7 +16,7 @@ window.CONTENT = {
         { who: '아빠', t: '09:02', text: '연구실에도 없단다. 경찰에 신고했다.' },
         { who: '엄마', t: '13:47', text: '한강에서 서윤이 옷이 나왔대... 서진아 엄마 지금 거기 간다' },
       ]},
-      { id: 'seoyun', name: '서윤', sub: '동생', av: ['#9cc4e4', '서'], ev: 'e_lastmsg', msgs: [
+      { id: 'seoyun', name: '서윤', sub: '동생', fig: 'seoyun', av: ['#9cc4e4', '서'], ev: 'e_lastmsg', msgs: [
         { d: '11월 14일 (토)' },
         { who: '서윤', t: '18:31', text: '언니 이번 주에 두부 보러 가도 돼?' },
         { who: '나', t: '18:40', text: '와 ㅋㅋ 토요일에 와' },
@@ -62,10 +62,10 @@ window.CONTENT = {
       { t: '00:31', place: '망원한강공원 · 휴대폰 꺼짐', x: 438, y: 262, last: true },
     ],
     contacts: [
-      { id: 'detective', name: '김도경 형사', sub: '마포경찰서 실종수사팀', call: true },
+      { id: 'detective', name: '김도경 형사', sub: '마포경찰서 실종수사팀', fig: 'detective' },
       { id: 'mom', name: '엄마', sub: '010-****-2207', toast: '엄마는 한강에 가 있다. 지금은 통화하지 말자.' },
-      { id: 'taeo', name: '강태오', sub: '서윤 연구실 선배', toast: '강태오: "저도 계속 찾고 있어요… 뭐든 알게 되면 연락 주세요."' },
-      { id: 'prof', name: '문혜숙 교수', sub: '도화대 환경공학과', toast: '"지금은 전화를 받을 수 없습니다." 음성사서함으로 넘어갔다.' },
+      { id: 'taeo', name: '강태오', sub: '서윤 연구실 선배', fig: 'taeo', toast: '강태오: "저도 계속 찾고 있어요… 뭐든 알게 되면 연락 주세요."' },
+      { id: 'prof', name: '문혜숙 교수', sub: '도화대 환경공학과', fig: 'prof', toast: '"지금은 전화를 받을 수 없습니다." 음성사서함으로 넘어갔다.' },
     ],
   },
 
@@ -82,7 +82,7 @@ window.CONTENT = {
         { who: '배지아', t: '09:12', text: '서윤이 연락 되는 사람 있어요..?' },
         { who: '오세훈', t: '09:20', text: '경찰서에서 연락 왔대요. 다들 뭐 아는 거 있으면 말해 달래요' },
       ]},
-      { id: 'taeo', name: '강태오 선배', av: ['#3a4250', '태'], unread: 1, ev: 'e_taeo', msgs: [
+      { id: 'taeo', name: '강태오 선배', fig: 'taeo', av: ['#3a4250', '태'], unread: 1, ev: 'e_taeo', msgs: [
         { d: '11월 14일 (토)' },
         { who: '서윤', t: '21:48', text: '선배, 원본 로거 파일 다시 봤는데 진짜 정확히 10배 차이에요.' },
         { who: '서윤', t: '21:49', text: '저 내일 아침에 신고할 거예요. 메일도 예약해 놨어요.' },
@@ -90,7 +90,7 @@ window.CONTENT = {
         { who: '강태오', t: '22:41', text: '제발 오늘 밤엔 아무것도 하지 마. 내일 얘기하자. 부탁이야' },
         { who: '강태오', t: '23:36', text: '아까 말 심하게 해서 미안. 편의점에서 맥주 사 들고 집 가는 중. 내일 같이 교수님 찾아가자', mark: true },
       ]},
-      { id: 'woobin', name: '정우빈', av: ['#7d8a99', '우'], unread: 4, ev: 'e_woobin', msgs: [
+      { id: 'woobin', name: '정우빈', fig: 'woobin', av: ['#7d8a99', '우'], unread: 4, ev: 'e_woobin', msgs: [
         { d: '11월 8일 (일)' },
         { who: '정우빈', t: '20:12', text: '잘 지내? 너 짐 아직 우리 집에 있어' },
         { d: '11월 14일 (토)' },
@@ -101,7 +101,7 @@ window.CONTENT = {
         { who: '정우빈', t: '00:01', text: '카드 없어서 못 들어가겠다' },
         { who: '정우빈', t: '00:06', text: '답 없네. 그냥 갈게. 미안', mark: true },
       ]},
-      { id: 'prof', name: '문혜숙 교수님', av: ['#5b4b63', '문'], ev: 'e_profchat', msgs: [
+      { id: 'prof', name: '문혜숙 교수님', fig: 'prof', av: ['#5b4b63', '문'], ev: 'e_profchat', msgs: [
         { d: '11월 12일 (목)' },
         { who: '서윤', t: '16:20', text: '교수님, 세진 보고서 수치 관련해서 여쭤볼 게 있습니다.' },
         { who: '문혜숙', t: '18:02', text: '그래 다음 주에 보자.' },
@@ -109,7 +109,7 @@ window.CONTENT = {
         { who: '문혜숙', t: '21:02', text: '서윤아, 세진 건은 내일 아침에 다시 얘기하자. 오늘은 들어가.', mark: true },
         { who: '서윤', t: '21:05', text: '네 교수님.' },
       ]},
-      { id: 'sister', name: '언니', av: ['#e9b38a', '🐱'], msgs: [
+      { id: 'sister', name: '언니', fig: 'cat:dubu', av: ['#e9b38a', '🐱'], msgs: [
         { d: '11월 14일 (토)' },
         { who: '서윤', t: '22:58', text: '언니 나 내일 아침에 전화할게. 할 얘기 있어' },
         { who: '서윤', t: '22:59', text: '혹시 나한테 무슨 일 생기면 내 노트북 봐. 비번 알지?' },
@@ -219,32 +219,49 @@ v4 수정자: 교수님.` },
     ], foot: '※ 번호판 인식 시스템 자동 기록' },
   },
 
-  /* ───────── CCTV ───────── */
+  /* ───────── CCTV (게임 속 3D 공간을 그대로 찍는다) ───────── */
   cctv: [
-    { id: 'lobby', short: '1층 로비', name: 'CAM 01 · 1층 로비', scene: 'lobby', frames: [
-      { t: '18:40:12', figs: [{ who: 'seoyun', x: 300 }], caption: '입실하는 여성. 하늘색 롱패딩, 흰 운동화.', zoom: 'sneaker', ev: 'e_cctv_lobby' },
-      { t: '19:05:40', figs: [{ who: 'taeo', x: 360 }], caption: '입실하는 남성. 검은 점퍼.' },
-      { t: '22:10:03', figs: [{ who: 'taeo', x: 260, flip: true }], caption: '퇴실하는 남성. 검은 점퍼.' },
-      { t: '22:31:55', figs: [{ who: 'guard', x: 420 }], caption: '경비 순찰.' },
+    { id: 'lobby', short: '1층 로비', name: 'CAM 01 · 1층 로비', app: '경비실 CCTV',
+      shot: { set: 'lobby', hideNpcs: true, cam: [-4.6, 3.3, 1.6], look: [-0.4, 0.7, -2.4], fov: 54 }, frames: [
+      { t: '18:40:12', figs: [{ id: 'seoyun', at: [-0.6, -2.2], ry: -1.0, walk: 0.35 }], caption: '입실하는 여성. 하늘색 롱패딩, 흰 운동화.', zoom: 'sneaker', zoomLabel: '발 부분 확대', ev: 'e_cctv_lobby' },
+      { t: '19:05:40', figs: [{ id: 'taeo', at: [-0.2, -2.6], ry: -0.9, walk: 0.5 }], caption: '입실하는 남성. 검은 점퍼.' },
+      { t: '22:10:03', figs: [{ id: 'taeo', at: [-1.2, -2.0], ry: 2.6, walk: 0.2 }], caption: '퇴실하는 남성. 검은 점퍼.' },
+      { t: '22:31:55', figs: [{ id: 'guard', at: [-3.0, 0.6], ry: 1.3, walk: 0.4 }], caption: '경비 순찰.' },
     ]},
-    { id: 'back', short: '1층 후문', name: 'CAM 03 · 1층 후문', scene: 'back', frames: [
+    { id: 'back', short: '1층 후문', name: 'CAM 03 · 1층 후문', app: '경비실 CCTV',
+      shot: { set: 'lobby', hideNpcs: true, cam: [2.2, 3.6, 4.6], look: [7.4, 0.8, 2.2], fov: 54, exposure: 0.85 }, frames: [
       { t: '23:20:00', figs: [], caption: '움직임 없음.' },
-      { t: '23:58:21', figs: [{ who: 'fake', x: 330 }], caption: '퇴실하는 인물. 하늘색 롱패딩, 모자를 깊게 눌러씀. 얼굴이 보이지 않는다.', zoom: 'loafer', ev: 'e_cctv_back' },
+      { t: '23:58:21', figs: [{ id: 'prof', over: { body: 'puffer', coatC: 0xa3cbe8, hair: 'buzz', extras: ['hood', 'phone'] }, at: [6.3, 2.3], ry: 1.45, walk: 0.3 }], caption: '퇴실하는 인물. 하늘색 롱패딩, 후드를 깊게 눌러씀. 얼굴이 보이지 않는다.', zoom: 'loafer', zoomLabel: '발 부분 확대', ev: 'e_cctv_back' },
       { t: '23:58:30', figs: [], caption: '문이 닫힌다.' },
     ]},
-    { id: 'front', short: '정문 밖', name: 'CAM 02 · 정문 밖', scene: 'front', frames: [
-      { t: '23:51:10', figs: [{ who: 'woobin', x: 250 }], caption: '정문 밖에 선 남성. 회색 후드티.' },
-      { t: '23:56:44', figs: [{ who: 'woobin', x: 400 }], caption: '휴대폰으로 전화를 거는 모습.' },
-      { t: '00:01:02', figs: [{ who: 'woobin', x: 470 }], caption: '출입카드 리더기 앞에서 머뭇거린다. 문은 열리지 않는다.', ev: 'e_cctv_front' },
-      { t: '00:06:15', figs: [{ who: 'woobin', x: 120, flip: true }], caption: '돌아서서 떠난다.' },
+    { id: 'front', short: '정문 밖', name: 'CAM 02 · 정문 밖', app: '경비실 CCTV', style: 'night',
+      shot: { set: 'ext_front', cam: [-5.2, 3.6, 4.4], look: [0.4, 1.0, -2.0], fov: 52, bg: 0x0d1118, exposure: 1.35 }, frames: [
+      { t: '23:51:10', figs: [{ id: 'woobin', over: { extras: [] }, at: [-1.4, -0.4], ry: 2.9 }], caption: '정문 밖에 선 남성. 회색 후드티.' },
+      { t: '23:56:44', figs: [{ id: 'woobin', at: [0.2, -0.9], ry: 2.4 }], caption: '휴대폰으로 전화를 거는 모습.' },
+      { t: '00:01:02', figs: [{ id: 'woobin', over: { extras: [] }, at: [1.6, -2.4], ry: 3.1 }], caption: '출입카드 리더기 앞에서 머뭇거린다. 문은 열리지 않는다.', ev: 'e_cctv_front' },
+      { t: '00:06:15', figs: [{ id: 'woobin', over: { extras: [] }, at: [-3.4, 1.2], ry: -0.9, walk: 0.3 }], caption: '돌아서서 떠난다.' },
     ]},
-    { id: 'store', short: '편의점', name: '하루마트 공덕점 · 계산대', scene: 'store', frames: [
-      { t: '23:34:08', figs: [{ who: 'taeo', x: 360 }], caption: '맥주 4캔을 계산하는 남성. 검은 점퍼.', ev: 'e_cctv_store' },
+    { id: 'store', short: '편의점', name: '하루마트 공덕점 · 계산대', app: '편의점 CCTV (형사 제공)',
+      shot: { set: 'store', cam: [2.0, 2.2, -2.7], look: [-0.4, 1.0, -0.5], fov: 52, bg: 0xeef0f2 }, frames: [
+      { t: '23:34:08', figs: [{ id: 'taeo', at: [-0.4, -0.6], ry: Math.PI }], caption: '맥주 4캔을 계산하는 남성. 검은 점퍼.', ev: 'e_cctv_store' },
     ]},
   ],
+  /* 확대 화면 */
+  zooms: {
+    sneaker: { set: 'lobby', hideNpcs: true, cctv: true, cam: [-1.75, 0.75, -1.2], look: [-0.6, 0.2, -2.2], fov: 30, figs: [{ id: 'seoyun', at: [-0.6, -2.2], ry: -1.0, walk: 0.35 }], caption: '흰 운동화. 옆면에 하늘색 줄.' },
+    loafer: { set: 'lobby', hideNpcs: true, cctv: true, exposure: 0.9, cam: [7.2, 0.65, 3.3], look: [6.3, 0.16, 2.3], fov: 30, figs: [{ id: 'prof', over: { body: 'puffer', coatC: 0xa3cbe8, hair: 'buzz', extras: ['hood', 'phone'] }, at: [6.3, 2.3], ry: 1.45, walk: 0.3 }], caption: '굽 낮은 갈색 로퍼. 발등에 금색 버클이 달려 있다. 서윤은 이런 신발을 신지 않는다.' },
+    homecoming: { set: 'homecoming', cam: [0.55, 0.62, 1.9], look: [0, 0.16, 0.2], fov: 30, bg: 0xbfd8ef, figs: [{ id: 'prof', at: [0, 0.2], ry: 0, mood: 'smile' }, { id: 'seoyun', at: [-1.3, 0], ry: 0.1, mood: 'smile' }, { id: 'taeo', at: [1.3, 0], ry: -0.1, mood: 'calm' }], caption: '문혜숙 교수의 신발: 금색 버클이 달린 갈색 로퍼.' },
+  },
+  /* 사진 */
+  photos: {
+    homecoming: { set: 'homecoming', w: 800, h: 450, bg: 0xbfd8ef, cam: [0, 1.7, 8.2], look: [0, 1.0, 0], fov: 32, figs: [{ id: 'grad2', at: [-2.6, 0], ry: 0.15, mood: 'smile' }, { id: 'seoyun', at: [-1.3, 0], ry: 0.1, mood: 'smile' }, { id: 'prof', at: [0, 0.2], ry: 0, mood: 'smile' }, { id: 'taeo', at: [1.3, 0], ry: -0.1, mood: 'calm' }, { id: 'grad1', at: [2.6, 0], ry: -0.15, mood: 'smile' }] },
+    family: { set: 'family', w: 480, h: 360, bg: 0xf1e8da, cam: [0, 1.45, 4.6], look: [0, 0.95, -1], fov: 34, figs: [{ id: 'seojin', over: { extras: ['scarf'] }, at: [-0.62, -0.7], ry: 0.2, mood: 'smile' }, { id: 'seoyun', over: { extras: ['watch'] }, at: [0.62, -0.7], ry: -0.2, mood: 'smile' }, { cat: 0xf4f1ea, at: [0, 0.1], ry: 0.2 }] },
+  },
+  avatars: { '서윤': 'seoyun', '강태오': 'taeo', '문혜숙': 'prof', '정우빈': 'woobin', '오세훈': 'grad1', '배지아': 'grad2' },
+  diaryTitle: '한서윤 · 연구 노트 2026',
 
-  /* 형사 통화 선택지 */
-  detectiveCall: {
+  /* 전화: 김도경 형사 */
+  calls: { detective: {
     after: '김도경 형사가 경비실에 말해 두었다. 1층 경비실에서 CCTV와 출입·주차 기록을 볼 수 있다.',
     toast: '김도경 형사: "경비실에 말해 뒀습니다. 1층에서 CCTV랑 기록 보세요."',
     opening: ['김도경입니다. 아, 서진 씨. 뭐 확인되신 게 있습니까?'],
@@ -254,7 +271,7 @@ v4 수정자: 교수님.` },
       { id: 'watch', label: '서윤이 워치는 밤새 연구동 Wi-Fi에 붙어 있었어요. 한강으로 간 건 휴대폰뿐이에요.', needsEv: ['e_police', 'e_watch'],
         reply: '…워치요? 잠깐만요. 그 시간에 버스 탄 기록이 있는데 워치는 학교에 있었다고요? 알겠습니다. 공학2관 CCTV랑 출입 기록, 주차 기록을 바로 보내 드릴게요. 같이 봐 주십시오.', unlock: 'records' },
     ],
-  },
+  } },
 };
 
 /* ───────── 3D 공간의 사물 ───────── */
@@ -267,10 +284,10 @@ window.CONTENT.diary = [
 ];
 
 window.CONTENT.examine = {
-  frame: () => ({ title: '책상 위 사진 액자', body: '고양이를 안고 웃는 서윤과 나.\n사진 아래 서윤의 글씨: "두부 우리 집 온 날 🐱 — 언니 생일에"\n\n그날은 3월 28일, 내 생일이었다.' }),
-  taeodesk: () => ({ title: '강태오의 자리', body: '모니터에 포스트잇: "졸업 심사 12/10 — 절대 미루지 말 것".\n책상 위에 편의점 봉투. 영수증은 보이지 않는다.' }),
-  bench: () => ({ title: '실험대의 시료병', body: '라벨: 세진매립장 9월 채수 #1~#12.\n선반 아래 메모: "보관은 B1 시료보관실(4°C)로. 마스터카드 필요."' }),
-  whiteboard: () => ({ title: '연구실 화이트보드', body: '이번 주 일정\n· 11/14(토) 세진 보고서 최종 검토 — 서윤\n· 11/15(일) 09:00 세진 제출 마감\n· 시료보관실 정리: 교수님 (M-02) ~11/30\n· ※ 시료보관실 혼자 들어가지 말 것!! 안에서 안 열림\n· 태오 졸업심사 12/10' }),
+  frame: () => ({ title: '책상 위 사진 액자', mood: 'gentle', visual: { kind: 'photo', photo: 'family', caption: '두부 우리 집 온 날 🐱 — 언니 생일에', rot: -1.5 }, body: '두부를 데려온 날 찍은 사진. 그날은 3월 28일, 내 생일이었다.' }),
+  taeodesk: () => ({ title: '강태오의 자리', visual: { kind: 'sticky', text: '졸업 심사 12/10\n— 절대 미루지 말 것!!', rot: 3 }, body: '모니터에 붙은 포스트잇. 책상 위에는 편의점 봉투. 영수증은 보이지 않는다.' }),
+  bench: () => ({ title: '실험대의 시료병', visual: { kind: 'sticky', text: '보관은 B1 시료보관실(4°C)로!\n마스터카드 필요', color: '#d8f0ff', rot: -2 }, body: '시료병 라벨: 세진매립장 9월 채수 #1~#12. 선반 아래에 메모가 붙어 있다.' }),
+  whiteboard: () => ({ title: '연구실 화이트보드', visual: { kind: 'whiteboard', lines: [['이번 주 일정 ✔', '#1f3b73', 1.25], ['11/14(토) 세진 보고서 최종 검토 — 서윤'], ['11/15(일) 09:00 세진 제출 마감!'], ['시료보관실 정리: 교수님 (M-02) ~11/30', '#c0392b'], ['※ 시료보관실 혼자 들어가지 말 것!! 안에서 안 열림', '#c0392b'], ['태오 졸업심사 12/10 🎓', '#2a7a3a']] }, body: '' }),
   taeo: (st) => ({ kick: '대화', title: '강태오', voice: 'taeo', lines: st.records
     ? [['강태오', '경찰이 CCTV를 다시 본다고요? …다행이에요.'], ['강태오', '저 그날 10시쯤 나가서 편의점 들렀다 집에 갔어요. 영수증도 있어요.'], ['강태오', '교수님이요? 그날은 일찍 들어가셨다고 들었는데…']]
     : [['강태오', '서윤이 자리는 창가 쪽이에요. 노트북은 경찰이 아직 안 가져갔어요.'], ['강태오', '그날 제가 좀 심하게 말했어요. 근데 진짜, 그런 뜻은 아니었어요.'], ['강태오', '서윤이 노트북 비번은… 저도 몰라요. 언니분은 아실 거라던데요.']] }),
@@ -279,10 +296,9 @@ window.CONTENT.examine = {
     : [['경비원', '죄송합니다. 경찰 허가 없이는 영상이나 출입 기록을 보여 드릴 수가 없어요.'], ['경비원', '형사님이 연락 주시면 바로 열어 드리겠습니다.']] }),
   frontdoor: () => ({ title: '정문', body: '유리문 밖으로 비가 내린다.\n그날 밤 이 문 앞에 누군가 오래 서 있었다고 했다. 지금은 나갈 때가 아니다.' }),
   backdoor: () => ({ title: '후문', body: '초록색 EXIT 표시. 문 옆 카드 리더기.\n경찰은 23:58에 서윤이 자기 카드로 이 문을 나갔다고 했다.\n…정말 서윤이었을까?' }),
-  colddoor: (st) => ({ title: '저온 시료보관실 문', body: st.hasEv('e_watchalt')
-    ? '철문 틈으로 찬 공기가 새어 나온다. 카드 리더기의 빨간 불이 깜빡인다.\n\n귀를 대 보니… 아주 희미하게, 안쪽에서 뭔가 긁는 소리가 난 것 같다.\n\n이제 결론을 내릴 때다.'
-    : '철문 틈으로 찬 공기가 새어 나온다. 문에는 "저온 시료보관실 4°C · 마스터카드 전용".\n카드 리더기의 빨간 불만 깜빡일 뿐, 문은 꿈쩍도 하지 않는다.\n\n결론을 내릴 준비가 됐다면 여기서 추론을 제출할 수 있다.',
-    action: { act: 'tofinal', label: '⚖️ 결론 내리기' } }),
+  colddoor: (st) => st.hasEv('e_watchalt')
+    ? ({ title: '저온 시료보관실 문', mood: 'sad', body: '철문 틈으로 찬 공기가 새어 나온다. 카드 리더기의 빨간 불이 깜빡인다.\n\n귀를 대 보니… 아주 희미하게, 안쪽에서 뭔가 긁는 소리가 난 것 같다.\n\n이 문은 마스터카드로만 열린다. 김도경 형사를 여기로 불러야 한다.', action: { act: 'verdict', label: '📞 김도경 형사에게 전화한다' } })
+    : ({ title: '저온 시료보관실 문', body: '철문 틈으로 찬 공기가 새어 나온다. 문에는 "저온 시료보관실 4°C · 마스터카드 전용".\n카드 리더기의 빨간 불만 깜빡일 뿐, 문은 꿈쩍도 하지 않는다.\n\n안에 무엇이 있는지 알 수 없다. 형사님을 부르려면 확실한 근거가 있어야 한다.', action: { act: 'verdict', label: '📞 그래도 형사에게 전화해 본다' } }),
   machine: () => ({ title: '기계실', body: '잠겨 있다. 안에서 웅웅거리는 소리. 냉각 설비가 돌아가는 소리 같다.' }),
   parkdoor: () => ({ title: '주차장 연결문', body: '지하주차장으로 이어지는 문. 카드 리더기가 없다.\n차로 들어온 사람은 출입 기록 없이 건물 안으로 들어올 수 있다.' }),
 };

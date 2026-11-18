@@ -5,10 +5,10 @@ window.CASE = {
   tagline: '출장에서 돌아오니, 고양이가 사라졌다.',
   startClock: { h: 21, m: 40 },
   dateLabel: '11월 20일 (금)', startRoom: 'studio', player: 'jisu', phoneOwner: '나', parMinutes: 12,
-  roomNames: { studio: '빌라 3층 301호 · 나의 자취방' },
-  howto: '방 안의 물건을 조사하면 증거가 모인다. 휴대폰 메시지도 꼼꼼히 보자.',
-  keyEvidence: ['r_lock', 'r_cam', 'r_group'],
-  evidenceGroups: [['내 휴대폰', '📱'], ['방', '🏠'], ['모찌캠', '🐱'], ['도어락', '🔐']],
+  roomNames: { studio: '빌라 3층 301호 · 나의 자취방', hall: '빌라 3층 복도' },
+  howto: '방과 복도를 조사하고 휴대폰도 꼼꼼히 보자. 모찌가 있는 곳을 찾았다면, 그 문을 두드리면 된다.',
+  keyEvidence: ['r_lock', 'r_cam', 'r_group', 'r_trail'],
+  evidenceGroups: [['내 휴대폰', '📱'], ['방', '🏠'], ['복도', '🚪'], ['모찌캠', '🐱'], ['도어락', '🔐']],
 
   intro: [
     { kicker: '11월 20일 금요일 · 밤 9시 40분', text: '2박 3일 대전 출장을 마치고 자취방 문을 열었다. "모찌야, 언니 왔어."' },
@@ -20,7 +20,8 @@ window.CASE = {
     r_note:   { title: '서아의 쪽지', src: '방 · 식탁', note: '"19일 저녁 7시 40분, 밥·물 주고 화장실도 치웠어. 모찌 잘 있음. 문 꼭 잠그고 감"' },
     r_bowl:   { title: '거의 그대로인 밥그릇', src: '방 · 밥그릇', note: '어제 저녁 가득 채운 사료가 거의 줄지 않았다. 모찌가 하루 가까이 먹지 않았다.' },
     r_window: { title: '잠긴 창문', src: '방 · 창문', note: '창문은 안에서 잠겨 있고 방충망도 멀쩡하다.' },
-    r_hair:   { title: '현관 밖 고양이 털', src: '방 · 현관', note: '현관 바깥쪽 매트에 회색 고양이 털이 묻어 있다.' },
+    r_hair:   { title: '현관 밖 고양이 털', src: '복도 · 301호 앞', note: '현관 바깥쪽 매트에 회색 고양이 털이 묻어 있다.' },
+    r_trail:  { title: '302호 앞 털과 츄르 봉지', src: '복도 · 302호 앞', note: '복도 바닥의 회색 털이 302호 앞 매트까지 이어진다. 매트 옆에 뜯은 츄르 봉지.' },
     r_notice: { title: '관리실 누수 점검 안내문', src: '방 · 현관문', note: '11/20(금) 10~12시 세대별 누수 점검. 부재 세대는 관리실 마스터 비밀번호로 출입.' },
     r_lock:   { title: '도어락 출입 기록', src: '도어락 · 출입 기록', note: '19일 19:40 게스트 비번 열림 → 19:55 잠김. 20일 10:05 마스터 비번 열림, 10:15 "10분 이상 열려 있음", 10:21 잠김.' },
     r_vest:   { title: '모찌캠 10:05 · 점검 조끼', src: '모찌캠 · 거실', note: '공구 가방을 든 사람이 들어온다. 조끼 등판: "해든빌라 관리실". 현관문은 열린 채다.' },
@@ -30,40 +31,23 @@ window.CASE = {
     r_group:  { title: '빌라 입주민 단톡 (무음)', src: '내 휴대폰 · 메시지', note: '20일 10:31 302호: "복도에 회색 고양이가 울고 있어서 일단 우리 집에 들였어요."' },
   },
 
-  final: [
-    { id: 'q1', q: '모찌는 어떻게 집 밖으로 나갔을까?', options: [
-      { id: 'window', label: '창문 틈으로 빠져나갔다' }, { id: 'seoa', label: '서아가 나갈 때 따라 나갔다' },
-      { id: 'check', label: '누수 점검 때 열려 있던 현관문으로 나갔다' }, { id: 'doyun', label: '도윤이 몰래 데려갔다' } ], answer: 'check' },
-    { id: 'q2', q: '11월 20일 낮, 현관문을 연 사람은?', options: [
-      { id: 'seoa', label: '서아 (게스트 비밀번호)' }, { id: 'doyun', label: '도윤' },
-      { id: 'manager', label: '관리실 직원 (마스터 비밀번호)' }, { id: 'grandma', label: '302호 할머니' } ], answer: 'manager' },
-    { id: 'q3', q: '모찌는 지금 어디에 있을까?', options: [
-      { id: 'vet', label: '동물병원' }, { id: 'grandma', label: '옆집 302호 할머니네' },
-      { id: 'doyun', label: '도윤의 집' }, { id: 'roof', label: '빌라 옥상' } ], answer: 'grandma' },
-  ],
-
   endings: {
-    true: { kind: 'TRUE ENDING', title: '다녀왔어, 모찌', slides: [
-      '302호 초인종을 누르자, 문틈으로 회색 꼬리가 먼저 보였다.',
-      '"어머, 지수 학생 고양이였어? 복도에서 하도 울길래 들여놨지." 할머니가 웃었다.',
+    true: { kind: '진실에 닿은 결말', title: '다녀왔어, 모찌', slides: [
       '모찌는 츄르 냄새를 잔뜩 묻힌 채 품에 안겨 골골거렸다.',
+      '할머니는 "다음엔 관리실에 꼭 말해요" 하며 남은 츄르를 봉지째 쥐여 주셨다.',
       '다음 날, 관리실은 "점검 중에는 현관문을 꼭 닫겠습니다"라는 안내문을 새로 붙였다.' ] },
-    normal: { kind: 'NORMAL ENDING', title: '찾긴 찾았는데', slides: [
-      '단톡방 메시지를 따라 302호에서 모찌를 데려왔다.',
+    normal: { kind: '반쪽의 결말', title: '찾긴 찾았는데', slides: [
+      '302호에서 모찌를 무사히 데려왔다.',
       '하지만 그 전에, 엉뚱한 사람에게 "네가 문 열어 둔 거지?"라고 쏘아붙인 뒤였다.',
       '도어락 기록을 다시 보니 모든 게 분명했다. 사과는 길어졌다.' ] },
-    lost: { kind: 'BAD ENDING', title: '빈 캣타워', slides: [
+    half: { kind: '반쪽의 결말', title: '어떻게 나갔을까', slides: [
+      '302호에서 모찌를 무사히 데려왔다.',
+      '그런데 잠긴 집에서 모찌가 어떻게 나갔는지는 끝내 설명하지 못했다.',
+      '며칠 뒤 관리실에서 또 점검을 왔고, 현관문은 또 한참 열려 있었다.' ] },
+    lost: { kind: '닿지 못한 결말', title: '빈 캣타워', slides: [
       '전단지를 붙이고 동네를 밤새 돌았지만, 모찌는 보이지 않았다.',
       '사흘 뒤, 안 읽은 단톡 메시지 87개를 정리하다가 302호 할머니의 글을 발견했다.',
       '모찌는 할머니네서 잘 지내고 있었다. 너무 늦게 알아서, 미안했다.' ] },
-  },
-
-  hints: {
-    start: ['모찌가 사라진 건 언제쯤일까? 출장 중 이 방에 들어온 사람부터 확인하자.', '현관문 옆 도어락, 그리고 선반 위 펫캠(모찌캠)을 조사해 보자.', '도어락 기록과 모찌캠 영상에 20일 오전 10시대의 일이 남아 있다.'],
-    cam: ['도어락 기록에 낯선 "마스터 비밀번호"가 있다. 그 시각 방 안에서는 무슨 일이 있었을까?', '선반 위 모찌캠의 20일 10:05~10:08 영상을 보자.', '점검 조끼를 입은 사람이 들어왔고, 열린 문으로 모찌가 나갔다.'],
-    notice: ['낮에 문을 연 사람은 누구이고, 왜 왔을까?', '현관문 안쪽에 붙은 안내문을 읽어 보자.', '관리실 누수 점검. 부재 세대는 마스터 비밀번호로 들어왔다.'],
-    where: ['복도로 나간 고양이는 어디로 갔을까? 누군가 봤을지도 모른다.', '현관에 있는 302호 할머니와 이야기하고, 휴대폰의 무음 단톡방을 열어 보자.', '20일 10:31 302호: "복도의 회색 고양이를 우리 집에 들였어요."'],
-    final: ['필요한 단서는 다 모였다.', '수사 수첩 타임라인에서 20일 오전 10시 전후를 다시 보자.', '점검 때 열린 현관문 / 관리실 직원 / 302호 할머니네'],
   },
 
   timeline: {
@@ -75,29 +59,72 @@ window.CASE = {
     r_vest:   [['11/20 10:05', '모찌캠: 점검 조끼 입은 사람 입장, 현관문 열린 채']],
     r_cam:    [['11/20 10:07', '모찌캠: 모찌가 열린 현관문 쪽으로'], ['11/20 10:08', '모찌캠: 방 안에 모찌 없음']],
     r_notice: [['11/20 10:00', '관리실 누수 점검 시작 (부재 세대는 마스터 비번으로 출입)']],
+    r_trail:  [['11/20 10:31', '302호 앞 매트: 회색 털, 뜯은 츄르 봉지']],
     r_group:  [['11/20 09:00', '단톡 관리실: 누수 점검 안내'], ['11/20 10:31', '단톡 302호: "복도에 회색 고양이… 우리 집에 들였어요"'], ['11/20 18:20', '단톡 302호: "고양이 주인 아직 연락 없네요"']],
   },
 
   people: [
-    { id: 'seoa', name: '박서아', role: '친구 · 출장 동안 밥 담당', claims: [['r_note', '"문 꼭 잠그고 감."'], ['r_seoa', '"모찌 밥 주고 나왔어~ 문 꼭 잠갔어!"']] },
-    { id: 'doyun', name: '이도윤', role: '전 남자친구', claims: [['r_doyun', '"이번 주 부산 출장이라 바빠."'], ['r_doyun', '"근처 지나가는데 잠깐 들러도 돼?"'], ['r_doyun', '"나 진짜 안 갔어."']] },
-    { id: 'grandma', name: '최경자', role: '옆집 302호 할머니', claims: [['r_group', '단톡: "복도에 회색 고양이가 울고 있어서 일단 우리 집에 들였어요."']] },
-    { id: 'manager', name: '관리실', role: '해든빌라 관리실', claims: [['r_notice', '"부재 세대는 관리실 마스터 비밀번호로 출입하여 점검 후 잠가 드립니다."']] },
+    { id: 'seoa', name: '박서아', role: '친구 · 출장 동안 밥 담당', fig: 'seoa', claims: [['r_note', '"문 꼭 잠그고 감."'], ['r_seoa', '"모찌 밥 주고 나왔어~ 문 꼭 잠갔어!"']] },
+    { id: 'doyun', name: '이도윤', role: '전 남자친구', fig: 'doyun', claims: [['r_doyun', '"이번 주 부산 출장이라 바빠."'], ['r_doyun', '"근처 지나가는데 잠깐 들러도 돼?"'], ['r_doyun', '"나 진짜 안 갔어."']] },
+    { id: 'grandma', name: '최경자', role: '옆집 302호 할머니', fig: 'grandma', claims: [['r_group', '단톡: "복도에 회색 고양이가 울고 있어서 일단 우리 집에 들였어요."']] },
+    { id: 'manager', name: '관리실', role: '해든빌라 관리실', fig: 'manager', claims: [['r_notice', '"부재 세대는 관리실 마스터 비밀번호로 출입하여 점검 후 잠가 드립니다."']] },
   ],
 
   panels: T => ({
-    phone: { title: '내 휴대폰', icon: '📱', items: [['phone.msg', '메시지']] },
-    cctv: { title: '모찌캠 (펫캠) 앱', icon: '🐱', items: T.cctv.map(c => ['cctv.' + c.id, c.short]) },
+    phone: { title: '내 휴대폰', icon: '📱', items: [['phone.msg', '메시지'], ['phone.call', '전화']] },
+    cctv: { title: '모찌캠 앱', icon: '🐱', items: T.cctv.map(c => ['cctv.' + c.id, c.short]) },
     records: { title: '스마트 도어락 앱', icon: '🔐', items: [['rec.lock', '출입 기록']] },
   }),
   stage(has) {
     if (!has('r_lock')) return 'start';
     if (!has('r_cam')) return 'cam';
     if (!has('r_notice')) return 'notice';
-    if (!has('r_group')) return 'where';
+    if (!has('r_group') && !has('r_trail')) return 'where';
     return 'final';
   },
-  endingKey: (p, A) => p.q3 !== A.q3 ? 'lost' : (p.q1 !== A.q1 || p.q2 !== A.q2) ? 'normal' : 'true',
   mood: () => 'investigate',
   voiceTest: [['me', '한지수 (나)', '모찌야, 어디 있어? 언니 왔어.'], ['grandma', '302호 할머니', '어머, 지수 학생 이제 왔어?'], ['narrator', '내레이션', '11월 20일 금요일, 밤 9시 40분.']],
+
+  thoughts: {
+    start: [
+      { t: '모찌가 사라진 건 언제쯤일까? 출장 중에 이 방에 들어온 사람부터 확인해 보자.', target: 'doorlock', room: 'studio' },
+      { t: '현관 도어락 앱에 출입 기록이 남아. 선반 위 모찌캠도 있고.', target: 'doorlock', room: 'studio' },
+    ],
+    cam: [
+      { t: '"마스터 비밀번호"로 문이 열렸어. 그 시각 방 안에서는 무슨 일이 있었지?', target: 'petcam', room: 'studio' },
+      { t: '모찌캠의 20일 오전 10시대 영상을 보자.', target: 'petcam', room: 'studio' },
+    ],
+    notice: [
+      { t: '조끼 입은 사람… 왜 우리 집에 들어왔지? 현관문 안쪽에 뭔가 붙어 있었던 것 같은데.', target: 'notice', room: 'studio' },
+      { t: '복도 게시판에도 관리실 안내가 붙어 있었지.', target: 'hallboard', room: 'hall' },
+    ],
+    where: [
+      { t: '모찌는 열린 현관문으로 복도에 나갔어. 복도를 살펴보자.', target: 'out', room: 'studio' },
+      { t: '매트에 털이… 바닥에도 이어져 있어. 어디까지 갔을까?', target: 'mat302', room: 'hall' },
+      { t: '휴대폰 무음 단톡방, 87개나 안 읽었네. 누가 고양이를 봤을지도.', target: 'phone' },
+    ],
+    final: [
+      { t: '302호 앞까지 털이 이어져 있어. 할머니 댁 초인종을 눌러 보자.', target: 'door302', room: 'hall' },
+      { t: '모찌가 어떻게 나갔는지도 설명할 수 있으면 좋겠어. 모찌캠과 도어락 기록이 있지.', target: 'door302', room: 'hall' },
+    ],
+  },
+
+  /* 결론: 302호 초인종을 누르고 할머니와 이야기한다 */
+  verdict: {
+    kick: '302호', title: '302호 할머니 댁', start: 'knock', endLabel: '모찌를 안는다',
+    names: { me: '나 (지수)', grandma: '302호 할머니' }, figs: { grandma: 'grandma' },
+    truths: [['found', '모찌는 302호 할머니 댁에 있었다'], ['how', '관리실 누수 점검 때 열린 현관문으로 나갔다'], ['fair', '죄 없는 친구를 의심하지 않았다']],
+    nodes: {
+      knock: { lines: [['narrator', '띵동. 잠시 뒤 302호 문이 빼꼼 열렸다.'], ['grandma', '어머, 지수 학생? 이 밤에 웬일이야. 출장 갔다더니.']], sfx: 'msg',
+        ask: 'options', options: [{ label: '혹시 회색 고양이 못 보셨어요? 저희 모찌가 없어졌어요.', next: 'cat' }, { label: '아, 아니에요. 늦게 죄송해요.', next: 'bye' }] },
+      bye: { lines: [['grandma', '그래요, 들어가요. 밤길 조심하고.']], close: '문 앞에서 물러난다' },
+      cat: { lines: [['grandma', '아이고, 그 회색 고양이가 학생네 고양이였어? 낮에 복도에서 하도 울길래 우리 집에 들여놨지. 단톡방에도 올렸는데.'], ['narrator', '할머니 다리 사이로 회색 꼬리가 쏙 나왔다. 모찌다!'], ['grandma', '근데 학생 없는 동안 문이 꼭 잠겨 있었을 텐데, 얘가 어떻게 나왔대?']],
+        flag: 'found', vres: { found: true },
+        ask: 'evidence', prompt: '모찌가 어떻게 나왔는지 보여 준다', accept: ['r_cam', 'r_vest', 'r_lock', 'r_notice'], mark: 'how',
+        say: (id, e) => `「${e.title}」을(를) 보면…`, ok: 'how', no: 'nohow' },
+      how: { lines: [['me', '오늘 오전에 관리실에서 누수 점검하면서 저희 집 문을 열어 뒀어요. 그 사이에 나갔나 봐요.'], ['grandma', '어머, 그랬구나. 관리실에 꼭 얘기해요. 점검할 땐 문 좀 닫아 달라고.']], vres: S => ({ fair: !S.flags.accused }), end: S => S.flags.accused ? 'normal' : 'true' },
+      nohow: { lines: [['me', '그게… 저도 잘 모르겠어요.'], ['grandma', '하긴 고양이들은 귀신같이 빠져나가지. 아무튼 찾아서 다행이야.']], vres: S => ({ fair: !S.flags.accused }), end: S => S.flags.accused ? 'normal' : 'half' },
+    },
+  },
+  giveup: { title: '밖으로 찾으러 나갈까?', text: '계단을 내려가 동네를 찾아본다.\n이 선택으로 사건이 끝난다.', ok: '밖으로 찾으러 나간다', end: 'lost' },
 };
