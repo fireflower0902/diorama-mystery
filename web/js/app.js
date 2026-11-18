@@ -10,7 +10,7 @@
   /* ───────── 상태 ───────── */
   const fresh = () => ({ started: false, room: C.startRoom || 'lab', seen: [], flags: {}, ev: [], star: [], newEv: [], read: [], thinks: 0, thinkLv: {}, elapsed: 0, ending: null, vres: {}, vfail: 0 });
   let S = load();
-  const ui = { view: 'phone.msg', panel: null, lastView: {}, sub: {}, introStep: -1, endStep: 0, overlay: null, vd: null };
+  const ui = { view: 'phone.msg', panel: null, lastView: {}, sub: {}, introStep: -1, endStep: 0, overlay: null, vd: null, home: new URLSearchParams(location.search).get('shot') !== 'og' };
   let tickStart = Date.now(), lastProgress = Date.now();
 
   function load() { if (location.hash === '#reset') { localStorage.removeItem(SAVE_KEY); history.replaceState(null, '', location.pathname + location.search); } try { return Object.assign(fresh(), JSON.parse(localStorage.getItem(SAVE_KEY)) || {}); } catch { return fresh(); } }
@@ -67,12 +67,13 @@
   /* ───────── 헤더 · 무대 · 독 ───────── */
   function renderHeader() {
     const snd = `<button class="hbtn snd ${AU.state.on ? '' : 'off'}" data-act="sound" title="소리 켜기/끄기">${AU.state.on ? '🔊' : '🔇'}</button>`;
-    const brand = `<div class="brand"><i class="logo"></i><div><small>${BRAND}</small><b>${esc(S.started ? C.title : BRAND)}</b></div></div>`;
-    $('#hdr').innerHTML = brand + `<div class="hstat">${S.started && !S.ending ? `<span class="clock" id="clock">${clockText()}</span>` : ''}${snd}${S.started && !S.ending ? '<button class="hbtn" data-act="menu" title="메뉴">☰</button>' : ''}</div>`;
+    const inGame = S.started && !S.ending && !ui.home;
+    const brand = `<div class="brand"><i class="logo"></i><div>${S.started && !ui.home ? `<small>${BRAND}</small>` : ''}<b>${esc(S.started && !ui.home ? C.title : BRAND)}</b></div></div>`;
+    $('#hdr').innerHTML = brand + `<div class="hstat">${inGame ? `<span class="clock" id="clock">${clockText()}</span>` : ''}${snd}${inGame ? '<button class="hbtn" data-act="menu" title="메뉴">☰</button>' : ''}</div>`;
   }
   const unreadThreads = () => (T.phone.threads || []).filter(t => t.unread && !S.read.includes('p:' + t.id)).length;
   function renderDock() {
-    const show = S.started && !S.ending;
+    const show = S.started && !S.ending && !ui.home;
     document.body.classList.toggle('playing', show);
     if (!show) { $('#dock').innerHTML = ''; return; }
     const ur = unreadThreads(), nudge = Date.now() - lastProgress > 100000;
@@ -83,7 +84,7 @@
     $('#where').textContent = (C.roomNames || {})[S.room] || '';
   }
   function renderStageUI() {
-    const show = S.started && !S.ending;
+    const show = S.started && !S.ending && !ui.home;
     $('#stageui').className = show ? 'on' : '';
     if (!show) return;
     $('#where').textContent = (C.roomNames || {})[S.room] || '';
@@ -101,7 +102,7 @@
       const ms = $('#main .ttmsgs'); if (ms) ms.scrollTop = ms.scrollHeight;
     } else { $('#main').innerHTML = ''; }
     renderOverlay();
-    W.setEnabled(S.started && !S.ending && !ui.panel && !ui.overlay);
+    W.setEnabled(S.started && !S.ending && !ui.home && !ui.panel && !ui.overlay);
     AU.setMood(!S.started ? 'intro' : S.ending ? (S.ending.key === 'true' ? 'end_true' : 'end_bad') : C.mood ? C.mood(S, ui) : 'investigate');
   }
 
@@ -300,7 +301,7 @@
   /* ───────── 오버레이 ───────── */
   function renderOverlay() {
     const o = $('#overlay');
-    if (!S.started) { o.className = 'show intro'; o.innerHTML = introHTML(); return; }
+    if (ui.home || !S.started) { o.className = 'show intro'; o.innerHTML = introHTML(); return; }
     if (S.ending) { o.className = 'show ending'; o.innerHTML = endingHTML(); return; }
     if (!ui.overlay) { o.className = ''; o.innerHTML = ''; return; }
     const x = ui.overlay;
@@ -329,7 +330,7 @@
         <div class="sndset"><b>소리</b>${[['on', '전체 소리'], ['bgm', '배경음'], ['sfx', '효과음'], ['voice', '음성 (대사·내레이션)']].map(([k, l]) => `<label><input type="checkbox" data-act="snd" data-v="${k}" ${AU.state[k] ? 'checked' : ''}> ${l}</label>`).join('')}</div>
         <div class="sndset voices"><b>목소리 (미리 듣기)</b>${(C.voiceTest || []).map(([k, l]) => `<button class="vrow2" data-act="voicetest" data-v="${k}"><span>▶ ${l}</span><em>${esc(AU.voiceInfo()[k])}</em></button>`).join('')}</div>
         <div class="sndset"><b>다른 사건</b>${CASE_LIST.map(c => `<button class="vrow2" data-act="switchcase" data-v="${c.id}"><span>${c.id === CASE_ID ? '▶ ' : ''}${esc(c.title)}</span><em>${esc(c.minutes)} · ${esc(c.where)}</em></button>`).join('')}</div>
-        <div class="row2"><button class="btn ghost" data-act="replayintro">인트로 다시 보기</button><button class="btn danger" data-act="reset">처음부터 다시</button></div>`);
+        <div class="row2"><button class="btn ghost" data-act="home">사건 선택 화면</button><button class="btn ghost" data-act="replayintro">인트로 다시 보기</button><button class="btn danger" data-act="reset">처음부터 다시</button></div>`);
     }
   }
   const modal = (inner, cls = '') => `<div class="modal ${cls}" data-stop>${inner}<button class="x" data-act="close" aria-label="닫기">✕</button></div>`;
@@ -413,10 +414,13 @@
   function hideThought() { const el = $('#thought'); if (el) el.className = ''; }
 
   /* ───────── 인트로 · 결말 ───────── */
+  function caseProgress(c) {
+    try { const ids = { four: 'four-degrees', room: 'mochi' }; const d = JSON.parse(localStorage.getItem('case-' + (ids[c.id] || c.id)) || 'null'); return !d || !d.started ? '' : d.ending ? '해결함' : '진행 중'; } catch { return ''; }
+  }
   function introHTML() {
     if (ui.introStep < 0) return `<div class="slide gate"><div class="gbrand"><i class="logo big"></i><div class="title">${BRAND}</div><p class="tag">실마리를 찾아서 사건을 해결한다</p></div>
-      <div class="cases">${CASE_LIST.map(c => `<button class="casecard ${c.id === CASE_ID ? 'on' : ''}" data-act="switchcase" data-v="${c.id}"><small>CASE ${CASE_LIST.indexOf(c) + 1}</small><b>${esc(c.title)}</b><p>${esc(c.tag)}</p><span>⏱ ${esc(c.minutes)} · ${esc(c.level)} · ${esc(c.where)}</span></button>`).join('')}</div>
-      <button class="btn big" data-act="intro">「${esc(C.title)}」 시작</button><p class="muted">🔊 소리를 켜고, 가능하면 이어폰으로 플레이하세요.</p></div>`;
+      <div class="cases">${CASE_LIST.map(c => `<button class="casecard ${c.id === CASE_ID ? 'on' : ''}" data-act="switchcase" data-v="${c.id}"><small>CASE ${CASE_LIST.indexOf(c) + 1}${caseProgress(c) ? ` · ${caseProgress(c)}` : ''}</small><b>${esc(c.title)}</b><p>${esc(c.tag)}</p><span>⏱ ${esc(c.minutes)} · ${esc(c.level)} · ${esc(c.where)}</span></button>`).join('')}</div>
+      ${ui.home && S.started ? `<div class="row2"><button class="btn big" data-act="resume">「${esc(C.title)}」 ${S.ending ? '결말 다시 보기' : '이어하기'}</button><button class="btn ghost" data-act="newgame">처음부터</button></div>` : `<button class="btn big" data-act="intro">「${esc(C.title)}」 시작</button>`}<p class="muted">🔊 소리를 켜고, 가능하면 이어폰으로 플레이하세요.</p></div>`;
     const s = C.intro[ui.introStep], last = ui.introStep === C.intro.length - 1;
     const touch = matchMedia('(pointer: coarse)').matches;
     return `<div class="slide"><div class="title sm">${esc(C.title)}</div><div class="kick">${esc(s.kicker)}</div><p>${esc(s.text)}</p>
@@ -497,7 +501,11 @@
       case 'vdclose': AU.stopSpeak(); AU.sfx('hangup'); ui.overlay = null; ui.vd = null; render(); break;
       case 'vdend': AU.stopSpeak(); finish(ui.vd.done.end); break;
       case 'confirmend': finish(v); break;
+      case 'resume': ui.home = false; tickStart = Date.now(); AU.sfx('unlock'); if (S.ending) ui.endStep = 0; else warmUp(); render(); break;
+      case 'newgame': if (confirm('이 사건의 진행이 사라집니다. 처음부터 할까요?')) { localStorage.removeItem(SAVE_KEY); S = fresh(); AU.stopSpeak(); Object.assign(ui, { view: 'phone.msg', panel: null, lastView: {}, sub: {}, overlay: null, introStep: -1, endStep: 0, vd: null, home: true }); W.goRoom(C.startRoom, false); render(); } break;
+      case 'home': save(); AU.stopSpeak(); Object.assign(ui, { home: true, overlay: null, panel: null, introStep: -1 }); render(); break;
       case 'intro':
+        ui.home = false;
         if (ui.introStep < C.intro.length - 1) { ui.introStep++; AU.sfx('page'); const sl = C.intro[ui.introStep]; AU.speak(sl.kicker + '. ' + sl.text); }
         else { S.started = true; ui.introStep = -1; tickStart = Date.now(); lastProgress = Date.now(); save(); AU.stopSpeak(); AU.sfx('unlock'); warmUp(); }
         render(); break;
