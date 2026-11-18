@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>4°C 캐릭터 라인업</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #e9e1d4; overflow: hidden; font-family: -apple-system, "Apple SD Gothic Neo", sans-serif; }
+    #view { position: fixed; inset: 0; }
+    .title { position: fixed; left: 28px; top: 22px; color: #3b3026; z-index: 2; } .title b { font-size: 26px; display: block; } .title span { font-size: 14px; opacity: .8; }
+    .names { position: fixed; left: 0; right: 0; bottom: 26px; display: flex; justify-content: space-around; padding: 0 4%; z-index: 2; }
+    .names div { text-align: center; color: #3b3026; width: 13%; } .names b { display: block; font-size: 16px; } .names span { font-size: 12px; opacity: .75; }
+  </style>
+</head>
+<body>
+  <div id="view"></div>
+  <div class="title"><b>「4°C」 캐릭터 라인업</b><span id="sub">디오라마 2.5등신 · 비주얼 바이블 설정 기준</span></div>
+  <div class="names" id="names"></div>
+  <script src="../vendor/three.min.js"></script>
+  <script src="../js/characters.js"></script>
+  <script>
+    const angle = (new URLSearchParams(location.search).get('a') || 'front');
+    const expr = angle === 'expr';
+    const ids = expr ? ['seojin','seojin','seojin','seojin','seojin','seojin','seojin'] : ['seojin', 'seoyun', 'prof', 'taeo', 'woobin', 'detective', 'guard'];
+    const moods = ['calm', 'smile', 'surprised', 'uneasy', 'sad', 'sharp', 'closed'];
+    const moodName = { calm: '평온', smile: '미소', surprised: '놀람', uneasy: '불안', sad: '슬픔', sharp: '날카로움', closed: '웃음' };
+    const roles = { seojin: '플레이어 · 언니', seoyun: '실종자', prof: '지도교수', taeo: '박사과정 선배', woobin: '전 남자친구', detective: '형사', guard: '경비원' };
+    document.getElementById('names').innerHTML = ids.map((id, i) => expr ? `<div><b>${moodName[moods[i]]}</b><span>${moods[i]}</span></div>` : `<div><b>${CHARS.SPEC[id].name}</b><span>${roles[id]}</span></div>`).join('');
+    document.getElementById('sub').textContent = expr ? '한서진 · 표정 교체 (넨도로이드식 얼굴 파츠)' : '피규어 스타일 2등신 · ' + (angle === 'back' ? '뒷모습' : angle === 'side' ? '3/4 측면' : '정면');
+    const W = innerWidth, H = innerHeight;
+    const r = new THREE.WebGLRenderer({ antialias: true }); r.setSize(W, H); r.shadowMap.enabled = true; r.shadowMap.type = THREE.PCFSoftShadowMap; r.outputEncoding = THREE.sRGBEncoding;
+    document.getElementById('view').appendChild(r.domElement);
+    const scene = new THREE.Scene(); scene.background = new THREE.Color(0xe9e1d4);
+    const cam = new THREE.PerspectiveCamera(24, W / H, 0.1, 100); cam.position.set(0, 1.5, 15); cam.lookAt(0, 0.62, 0);
+    scene.add(new THREE.HemisphereLight(0xfff6ea, 0xb9a88f, 0.6)); const fill = new THREE.DirectionalLight(0xdfe8ff, 0.35); fill.position.set(-5, 3, 4); scene.add(fill); const rim = new THREE.DirectionalLight(0xffffff, 0.5); rim.position.set(0, 4, -6); scene.add(rim);
+    const l = new THREE.DirectionalLight(0xfff0dc, 0.95); l.position.set(3, 7, 6); l.castShadow = true; l.shadow.mapSize.set(2048, 2048); Object.assign(l.shadow.camera, { left: -6, right: 6, top: 4, bottom: -2 }); l.shadow.normalBias = 0.02; scene.add(l);
+    const base = new THREE.Mesh(CHARS.rbox(10.6, 0.25, 1.6, 0.08), new THREE.MeshStandardMaterial({ color: 0xc89b6d, roughness: 0.9 })); base.position.y = -0.25; base.receiveShadow = true; scene.add(base);
+    ids.forEach((id, i) => { const c = CHARS.build(id); if (expr) CHARS.setExpression(c, moods[i]); c.position.set(-4.08 + i * 1.36, 0, 0); c.rotation.y = angle === 'back' ? Math.PI : angle === 'side' ? -0.75 : 0.1; scene.add(c); });
+    r.render(scene, cam); document.body.dataset.ready = '1';
+  </script>
+</body>
+</html>

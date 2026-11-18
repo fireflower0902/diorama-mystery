@@ -1,0 +1,4 @@
+# 다른 회사 앱(타인의 폰) APK·분석 자료: 저장소에 올리지 않는다
+benchmark/
+.DS_Store
+node_modules/

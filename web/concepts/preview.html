@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>4°C 컨셉 시안</title>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; font-family: -apple-system, "Apple SD Gothic Neo", sans-serif; }
+    #view { position: fixed; inset: 0; } .tilt { z-index: 2; }
+    .tilt { position: fixed; left: 0; right: 0; height: 26%; pointer-events: none; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    .tilt.top { top: 0; -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
+    .tilt.bot { bottom: 0; -webkit-mask-image: linear-gradient(transparent, #000); mask-image: linear-gradient(transparent, #000); }
+    .label { position: fixed; z-index: 5; left: 24px; top: 20px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.5); }
+    .label b { display: block; font-size: 26px; } .label span { font-size: 14px; opacity: .85; }
+    .s-a .label { color: #4a3a2a; text-shadow: none; }
+  </style>
+</head>
+<body>
+  <div id="view"></div>
+  <div class="label"><b id="t"></b><span id="d"></span></div>
+  <script src="../vendor/three.min.js"></script>
+  <script>
+    const s = (new URLSearchParams(location.search).get('s') || 'b').toLowerCase();
+    const info = { a: ['A. 미니어처 디오라마', '책상 위 모형 세트 · 2~3등신 · 파스텔 · 틸트시프트'], b: ['B. 셀셰이딩 누아르', '굵은 외곽선 · 3단 명암 · 어둠 속 빨강/청록 포인트'], c: ['C. 복셀 탐정', '블록 세계 · 비 오는 밤 · 네온 조명'] }[s];
+    document.body.className = 's-' + s; document.getElementById('t').textContent = info[0]; document.getElementById('d').textContent = info[1];
+    if (s === 'a') { ['top', 'bot'].forEach(k => { const d = document.createElement('div'); d.className = 'tilt ' + k; document.body.appendChild(d); }); }
+  </script>
+  <script src="preview.js"></script>
+</body>
+</html>
