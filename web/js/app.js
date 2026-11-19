@@ -44,7 +44,10 @@
   const shotOf = (cam, f, i) => W.snap(Object.assign({ key: `cc:${cam.id}:${i}` }, cam.shot, { figs: f.figs || [], door: f.door }));
 
   /* ───────── 아이콘 ───────── */
+  const SPK = '<path d="M4 9.5h3.2L12 5.2v13.6L7.2 14.5H4z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>';
   const ICON = {
+    soundOn: `<svg viewBox="0 0 24 24" fill="none">${SPK}<path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.2 6.4a8 8 0 0 1 0 11.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>`,
+    soundOff: `<svg viewBox="0 0 24 24" fill="none">${SPK}<path d="M16 9.5l5 5M21 9.5l-5 5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>`,
     phone: '<svg viewBox="0 0 32 32"><rect x="9" y="3" width="14" height="26" rx="3.5" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="13.5" y="6" width="5" height="1.6" rx=".8" fill="currentColor"/><circle cx="16" cy="25" r="1.6" fill="currentColor"/><path d="M12.5 13.5h7M12.5 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".7"/></svg>',
     file: '<svg viewBox="0 0 32 32"><path d="M4 9.5a2 2 0 0 1 2-2h6l2.5 2.5H26a2 2 0 0 1 2 2V24a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M9 15h10M9 19h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".7"/><circle cx="23" cy="19" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
     think: '<svg viewBox="0 0 32 32"><path d="M9 21c-3 0-5-2.2-5-5s2.2-5 5-5c.6-3 3.2-5 6.5-5 3 0 5.5 1.8 6.3 4.4C25 10.5 28 13 28 16.3 28 19 25.8 21 23 21z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="8" cy="25" r="1.8" fill="currentColor"/><circle cx="4.6" cy="28.4" r="1.1" fill="currentColor"/><path d="M12 16h.01M16 16h.01M20 16h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
@@ -66,7 +69,7 @@
 
   /* ───────── 헤더 · 무대 · 독 ───────── */
   function renderHeader() {
-    const snd = `<button class="hbtn snd ${AU.state.on ? '' : 'off'}" data-act="sound" title="소리 켜기/끄기">${AU.state.on ? '🔊' : '🔇'}</button>`;
+    const snd = `<button class="hbtn snd ${AU.state.on ? '' : 'off'}" data-act="sound" title="소리 켜기/끄기" aria-label="${AU.state.on ? '소리 끄기' : '소리 켜기'}">${AU.state.on ? ICON.soundOn : ICON.soundOff}</button>`;
     const inGame = S.started && !S.ending && !ui.home;
     const brand = `<div class="brand"><i class="logo"></i><div>${S.started && !ui.home ? `<small>${BRAND}</small>` : ''}<b>${esc(S.started && !ui.home ? C.title : BRAND)}</b></div></div>`;
     $('#hdr').innerHTML = brand + `<div class="hstat">${inGame ? `<span class="clock" id="clock">${clockText()}</span>` : ''}${snd}${inGame ? '<button class="hbtn" data-act="menu" title="메뉴">☰</button>' : ''}</div>`;
@@ -425,7 +428,7 @@
         <div class="ccbody"><b>${esc(c.title)}</b><p>${esc(c.tag)}</p>
           <div class="ccmeta"><span>⏱ ${esc(c.minutes)}</span><span>난이도 ${esc(c.level)}</span><span>${esc(c.where)}</span></div>
           <div class="ccbtns">${st ? `<button class="btn" data-act="pickcase" data-v="${c.id}" data-mode="resume">${st === 'done' ? '결말 다시 보기' : '이어하기'}</button><button class="btn ghost" data-act="pickcase" data-v="${c.id}" data-mode="new">처음부터</button>` : `<button class="btn" data-act="pickcase" data-v="${c.id}" data-mode="start">시작하기</button>`}</div></div></article>`; }).join('')}</div>
-      <p class="muted">🔊 소리를 켜고, 가능하면 이어폰으로 플레이하세요.</p></div>`;
+      <p class="muted sndnote">${ICON.soundOn}소리를 켜고, 가능하면 이어폰으로 플레이하세요.</p></div>`;
     const s = C.intro[ui.introStep], last = ui.introStep === C.intro.length - 1;
     const touch = matchMedia('(pointer: coarse)').matches;
     return `<div class="slide"><div class="title sm">${esc(C.title)}</div><div class="kick">${esc(s.kicker)}</div><p>${esc(s.text)}</p>
