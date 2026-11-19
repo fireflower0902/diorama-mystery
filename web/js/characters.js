@@ -16,6 +16,7 @@ window.CHARS = (() => {
     seoa:   { name: '박서아', skin: 0xffe4d4, hair: 'bob', hairC: 0x7a4a32, body: 'hoodie', coatC: 0xeaa6bb, pantsC: 0x3b4a66, shoes: 'sneakers', extras: ['backpack'], eye: { iris: '#7a4a32', mood: 'smile', brow: 'soft' } },
     doyun:  { name: '이도윤', skin: 0xf3d3bb, hair: 'short', hairC: 0x1c1a1c, body: 'jacket', coatC: 0x30415e, pantsC: 0x3a3f4a, shoes: 'black', extras: [], eye: { iris: '#4a3a30', mood: 'calm', brow: 'firm' } },
     manager:{ name: '관리실 직원', skin: 0xf0cfb4, hair: 'cap', hairC: 0x2a2626, body: 'jacket', coatC: 0x4b5560, pantsC: 0x4a5058, shoes: 'black', extras: ['vest', 'toolbag'], eye: { iris: '#3a3030', mood: 'calm', brow: 'firm' } },
+    sleuth: { name: '탐정', skin: 0xffe1cc, hair: 'buzz', hairC: 0x6b4a32, body: 'trench', coatC: 0xd2ad74, pantsC: 0x4a3a30, shoes: 'boots', extras: ['scarf', 'deerstalker', 'magnifier'], scarfC: 0xc8553d, eye: { iris: '#5a3a26', mood: 'smile', brow: 'soft' } },
     grad1:  { name: '오세훈', skin: 0xf4d4bc, hair: 'short', hairC: 0x2a2224, body: 'hoodie', coatC: 0x5d7a5a, pantsC: 0x34383f, shoes: 'black', extras: ['glasses'], eye: { iris: '#4a3a30', mood: 'smile', brow: 'soft' } },
     grad2:  { name: '배지아', skin: 0xffe2cf, hair: 'bob', hairC: 0x3a2a24, body: 'jacket', coatC: 0xc9a46a, pantsC: 0x30343c, shoes: 'sneakers', extras: [], eye: { iris: '#6b4a3a', mood: 'smile', brow: 'soft' } },
   };
@@ -190,6 +191,24 @@ window.CHARS = (() => {
       const rim = mesh(new THREE.TorusGeometry(0.3, 0.07, 10, 28, Math.PI * 1.25), hm, 0, 0.02, 0.27); rim.rotation.set(-0.35, 0, -Math.PI / 8); head.add(rim);
       const shade = mesh(new THREE.SphereGeometry(0.345, 28, 16, Math.PI / 2 - 0.75, 1.5, 0, Math.PI * 0.6), new THREE.MeshBasicMaterial({ color: 0x0a0a0c, transparent: true, opacity: 0.72 })); shade.scale.set(1.07, 0.98, 1.02); head.add(shade);
       head.rotation.x = 0.28;
+    }
+    if (c.extras.includes('deerstalker')) {   // 탐정 모자 (체크무늬 사냥 모자)
+      const cv = document.createElement('canvas'); cv.width = cv.height = 128; const x = cv.getContext('2d');
+      x.fillStyle = '#b08a56'; x.fillRect(0, 0, 128, 128); x.fillStyle = 'rgba(90,60,30,.45)';
+      for (let i = 0; i < 128; i += 32) { x.fillRect(i, 0, 12, 128); x.fillRect(0, i, 128, 12); }
+      const tx = new THREE.CanvasTexture(cv); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(3, 2); tx.encoding = THREE.sRGBEncoding;
+      const hm = new THREE.MeshPhysicalMaterial({ map: tx, roughness: 0.7, clearcoat: 0.1 });
+      const crown = mesh(new THREE.SphereGeometry(0.385, 36, 20, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, 0.06, 0); crown.scale.set(1.08, 0.95, 1.05); head.add(crown);
+      [1, -1].forEach(z => { const b = mesh(new THREE.SphereGeometry(0.2, 20, 10, 0, Math.PI * 2, 0, Math.PI * 0.5), hm, 0, 0.07, z * 0.3); b.scale.set(1.2, 0.18, 1.1); b.rotation.x = z * 0.35; head.add(b); });
+      [-1, 1].forEach(sx => { const f = mesh(rbox(0.05, 0.2, 0.17, 0.04), hm, sx * 0.39, 0.02, 0); f.rotation.z = sx * 0.25; head.add(f); });
+      const bow = mesh(new THREE.TorusGeometry(0.04, 0.015, 8, 16), M(0x6b4a2a), 0, 0.43, 0); bow.rotation.x = Math.PI / 2; head.add(bow);
+    }
+    if (c.extras.includes('magnifier')) {   // 돋보기를 들어 올린 손
+      handR.rotation.set(-1.9, 0, 0.35);
+      const mg = new THREE.Group(); mg.position.set(0, -0.26, 0.02); mg.rotation.set(1.9, 0, -0.35); handR.add(mg);
+      mg.add(mesh(cyl(0.018, 0.022, 0.16, 12), M(0x6b3a1e, { r: 0.4 }), 0, -0.02, 0));
+      const ring = mesh(new THREE.TorusGeometry(0.13, 0.022, 12, 32), M(0xd8b04a, { m: 0.7, r: 0.25 }), 0, 0.2, 0); mg.add(ring);
+      const glass = mesh(new THREE.CircleGeometry(0.125, 32), new THREE.MeshPhysicalMaterial({ color: 0xbfe8ff, roughness: 0.05, transmission: 0, transparent: true, opacity: 0.45, clearcoat: 1 }), 0, 0.2, 0); glass.material.side = THREE.DoubleSide; mg.add(glass);
     }
     if (c.extras.includes('vest')) {   // 형광 점검 조끼 + 등판 글씨
       fig.add(mesh(cyl(0.15, 0.185, 0.25), M(0xc8f03c, { r: 0.55, cc: 0.1 }), 0, 0.38, 0));

@@ -379,6 +379,15 @@ window.WORLD = (() => {
       root.add(new THREE.HemisphereLight(0xfff4e6, 0x8a7a6a, 0.85));
       const d = new THREE.DirectionalLight(0xffe8cc, 0.7); d.position.set(3, 7, 6); d.castShadow = true; root.add(d);
     },
+    /* 아이콘용: 둥근 원목 받침대 위의 작은 무대 */
+    pedestal() {
+      root.add(new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.32, 0.42, 48), M(0xa8744a, { r: 0.6 })).translateY(-0.21));
+      root.add(new THREE.Mesh(new THREE.CylinderGeometry(1.33, 1.33, 0.05, 48), M(0x7a5233, { r: 0.6 })).translateY(-0.44));
+      const top = new THREE.Mesh(new THREE.CylinderGeometry(1.18, 1.18, 0.02, 48), M(0xe9dcc4, { r: 0.8 })); top.position.y = 0.0; top.receiveShadow = true; root.add(top);
+      const fp = M(0x8a6242); [[-0.62, 0.55, 0.3], [-0.38, 0.3, 0.2], [0.55, 0.62, -0.3]].forEach(([x, z, r]) => { const f = new THREE.Mesh(new THREE.CircleGeometry(0.07, 12), fp); f.scale.set(0.7, 1.2, 1); f.rotation.set(-Math.PI / 2, 0, r); f.position.set(x, 0.015, z); root.add(f); });
+      root.add(new THREE.HemisphereLight(0xfff4e6, 0x6a5040, 0.85));
+      const d = new THREE.DirectionalLight(0xffe8cc, 0.95); d.position.set(2.5, 5, 4); d.castShadow = true; Object.assign(d.shadow.camera, { left: -2, right: 2, top: 2, bottom: -2 }); root.add(d);
+    },
     /* 프로필 사진용 단색 배경 */
     plain() {
       root.add(new THREE.HemisphereLight(0xffffff, 0xb0a090, 0.95));
