@@ -54,7 +54,7 @@ window.CONTENT = {
     ] },
     doyun: { voice: 'doyun', opening: ['어. 무슨 일이야?'], options: [
       { id: 'acc', label: '너 우리 집 왔었지? 모찌가 없어졌어.', reply: '뭐? 나 진짜 안 갔다니까. 비번도 바뀌었잖아. …모찌 없어졌어? 괜찮아?', flag: 'accused' },
-      { id: 'ask', label: '어제 근처 지나갔다며. 혹시 고양이 못 봤어?', reply: '문자만 보내고 그냥 갔어. 건물 안엔 들어가지도 않았어. 못 봤어, 미안.' },
+      { id: 'ask', label: '어제 근처 지나갔다며. 혹시 고양이 못 봤어?', reply: '부산 일이 하루 일찍 끝나서 올라오던 길이었어. 문자만 보내고 그냥 갔어. 건물 안엔 들어가지도 않았어. 못 봤어, 미안.' },
     ] },
     manager: { voice: 'manager', opening: ['안녕하십니까, 해든빌라 관리실입니다. 지금은 업무 시간이 아닙니다. 급한 용무는 내일 오전 9시 이후에 다시 연락 주십시오.'], options: [] },
   },
@@ -66,7 +66,7 @@ window.CONTENT = {
       shot: { set: 'studio', frontWall: 0xeee6da, bg: 0xeee6da, cam: [1.2, 1.75, -3.5], look: [-3.0, 0.55, 1.6], fov: 76 }, frames: [
       { t: '19:41:05', day: '2026-11-19', figs: [{ id: 'seoa', at: [-2.1, -1.4], ry: Math.PI }, { cat: true, at: [-1.3, -2.0], ry: -2.2 }], caption: '서아가 밥그릇에 사료를 붓는다. 모찌가 다가온다.' },
       { t: '19:54:40', day: '2026-11-19', figs: [{ cat: true, at: [-0.7, 0.9], ry: 2.6 }], caption: '현관문이 닫힌다. 모찌는 러그 위에 앉아 있다.' },
-      { t: '10:05:12', day: '2026-11-20', door: 'open', figs: [{ id: 'manager', at: [-3.4, 1.3], ry: 0.15, walk: 0.3 }], caption: '현관문이 열리고, 공구 가방을 든 사람이 들어와 욕실 쪽으로 간다. 문은 열린 채다.', zoom: 'vest', zoomLabel: '조끼 등판 확대', ev: 'r_vest' },
+      { t: '10:05:12', day: '2026-11-20', door: 'open', figs: [{ id: 'manager', at: [-3.4, 1.3], ry: 0.15, walk: 0.3 }], caption: '현관문이 열리고, 공구 가방을 든 사람이 들어와 방 안쪽을 둘러본다. 현관문은 열린 채다.', zoom: 'vest', zoomLabel: '조끼 등판 확대', ev: 'r_vest' },
       { t: '10:07:33', day: '2026-11-20', door: 'open', figs: [{ cat: true, pose: 'walk', at: [-3.7, 2.1], ry: -Math.PI / 2 }], caption: '모찌가 열린 현관문 쪽으로 걸어간다.', ev: 'r_cam' },
       { t: '10:08:02', day: '2026-11-20', door: 'open', figs: [], caption: '방 안에 모찌가 보이지 않는다.' },
       { t: '10:21:10', day: '2026-11-20', figs: [], caption: '현관문이 닫힌다.' },
